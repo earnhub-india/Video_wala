@@ -38,6 +38,7 @@
     .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
     .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.96); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
+    .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
 <body>
@@ -58,36 +59,36 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <!-- 1st: 30s Short Cartoon Rhyme Song -->
+        <!-- 1st: 30s Short Cartoon Rhyme -->
         <div class="vcard">
           <div class="vthumb">🎵</div>
           <span class="vbadge">30s • 10 Coins</span>
-          <h4>Rhymes Song</h4>
-          <button class="wbtn" onclick="startVideo('e_04ZrNroTo', 'Rhymes Song', 30, 10, false, 1)">Dekhein</button>
+          <h4>Quick Cartoon</h4>
+          <button class="wbtn" onclick="openVideoWithAd('e_04ZrNroTo', 'Quick Cartoon', 30, 10, false, 1)">Dekhein</button>
         </div>
 
-        <!-- 2nd: 1 Min Kids Cartoon Video -->
+        <!-- 2nd: 1 Min Kids Story -->
         <div class="vcard">
           <div class="vthumb">🐻</div>
           <span class="vbadge">1 Min • 20 Coins</span>
-          <h4>Cartoon Fun</h4>
-          <button class="wbtn" onclick="startVideo('KYniUCGPGLs', 'Cartoon Fun', 60, 20, false, 1)">Dekhein</button>
+          <h4>Mini Story</h4>
+          <button class="wbtn" onclick="openVideoWithAd('KYniUCGPGLs', 'Mini Story', 60, 20, false, 1)">Dekhein</button>
         </div>
 
-        <!-- 3rd: 15 Min Kids Song Show -->
-        <div class="vcard">
-          <div class="vthumb">🎶</div>
-          <span class="vbadge">15 Min • 50 Coins</span>
-          <h4>Kids Music Show</h4>
-          <button class="wbtn" onclick="startVideo('kJQP7kiw5Fk', 'Kids Music Show', 180, 10, true, 5)">Dekhein</button>
-        </div>
-
-        <!-- 4th: 1 Hour Mega Cartoon Entertainment -->
+        <!-- 3rd: 15 Min Full Cartoon (Har 3 min me 10 coins, total 50 coins) -->
         <div class="vcard">
           <div class="vthumb">🍿</div>
+          <span class="vbadge">15 Min • 50 Coins</span>
+          <h4>Medium Show</h4>
+          <button class="wbtn" onclick="openVideoWithAd('kJQP7kiw5Fk', 'Medium Show', 180, 10, true, 5)">Dekhein</button>
+        </div>
+
+        <!-- 4th: 1 Hour Mega Hindi Kids Show (Har 5 min me 20 coins) -->
+        <div class="vcard">
+          <div class="vthumb">👑</div>
           <span class="vbadge">1 Hour Mega</span>
-          <h4>Mega Cartoon Show</h4>
-          <button class="wbtn" onclick="startVideo('EngW7tLk6R8', 'Mega Cartoon Show', 300, 20, true, 12)">Dekhein</button>
+          <h4>Full Mega Show</h4>
+          <button class="wbtn" onclick="openVideoWithAd('EngW7tLk6R8', 'Full Mega Show', 300, 20, true, 12)">Dekhein</button>
         </div>
       </div>
     </div>
@@ -103,6 +104,7 @@
         <div class="fgrp"><label>UPI ID</label><input type="text" id="uInput" placeholder="example@paytm"></div>
         <div class="fgrp"><label>Coins (Min 50)</label><input type="number" id="aInput" placeholder="50"></div>
         <button class="act-btn" id="subBtn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
+        <p class="info-tag">ℹ Din me sirf 1 baar withdrawal request laga sakte hain.</p>
       </div>
       <div class="card"><h4 style="margin-bottom:10px;">History</h4><div id="hList"></div></div>
     </div>
@@ -129,7 +131,7 @@
         <iframe id="vFrame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div id="breakBox" class="break-overlay">
           <h3 style="color:var(--acc);margin-bottom:6px;" id="bHead">🎉 Bonus Added!</h3>
-          <p style="font-size:13px;margin-bottom:14px;" id="bMsg">Aapke coins wallet me add ho gaye hain.</p>
+          <p style="font-size:13px;margin-bottom:14px;" id="bMsg">Aapke coins wallet me jama ho gaye hain.</p>
           <button id="contBtn" class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="resumePlay()">▶ Continue Dekhein</button>
         </div>
       </div>
@@ -141,6 +143,7 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
+    const AD_DIRECT_LINK = "https://uplcm.com/4/12101406";
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
@@ -174,7 +177,11 @@
       return `${m}m ${rem < 10 ? '0' : ''}${rem}s`;
     }
 
-    function startVideo(ytId, title, intervalSec, rewardCoins, loopMode, maxRounds) {
+    function openVideoWithAd(ytId, title, intervalSec, rewardCoins, loopMode, maxRounds) {
+      // 1. User ke direct tap par turant ad open hoga (Chrome ise block nahi karega)
+      window.open(AD_DIRECT_LINK, '_blank');
+
+      // 2. Video modal initialize hoga
       document.getElementById('mTitle').innerText = title;
       document.getElementById('breakBox').style.display = 'none';
 
@@ -213,7 +220,7 @@
             document.getElementById('contBtn').style.display = 'inline-block';
           } else {
             document.getElementById('contBtn').style.display = 'none';
-            document.getElementById('tTxt').innerText = "🏆 Reward Complete!";
+            document.getElementById('tTxt').innerText = "🏆 Session Complete!";
           }
           document.getElementById('breakBox').style.display = 'flex';
         }
@@ -221,6 +228,8 @@
     }
 
     function resumePlay() {
+      // Break se aage badhne par firse ad trigger
+      window.open(AD_DIRECT_LINK, '_blank');
       document.getElementById('breakBox').style.display = 'none';
       sec = currentInterval;
       document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
@@ -331,5 +340,5 @@
     }
   </script>
 </body>
-  </html>
+          </html>
   
