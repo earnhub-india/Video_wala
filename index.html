@@ -21,10 +21,10 @@
     .bbtn { background: var(--acc); color: #000; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
     .bbtn:disabled { opacity: 0.5; cursor: not-allowed; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .vcard { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #232c58; padding: 10px; text-align: center; }
-    .vthumb { font-size: 32px; padding: 12px 0; background: #0b1027; border-radius: 8px; margin-bottom: 8px; }
-    .vbadge { font-size: 10px; background: rgba(255,183,3,0.15); color: var(--acc); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: bold; }
-    .wbtn { width: 100%; background: var(--pri); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
+    .vcard { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #232c58; padding: 12px; text-align: center; }
+    .vthumb { font-size: 36px; padding: 14px 0; background: #0b1027; border-radius: 8px; margin-bottom: 8px; }
+    .vbadge { font-size: 11px; background: rgba(255,183,3,0.15); color: var(--acc); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: bold; }
+    .wbtn { width: 100%; background: var(--pri); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 8px; }
     #walletSec, #profileSec { display: none; }
     .wcard { background: #1e295d; border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; }
     .fgrp { margin-bottom: 12px; text-align: left; }
@@ -37,7 +37,7 @@
     .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; position: relative; }
     .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
     .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.96); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
+    .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.95); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
     .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
@@ -59,36 +59,36 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <!-- 1st: 30s Short Cartoon Rhyme -->
+        <!-- 1st: Cartoon Song Rhymes -->
         <div class="vcard">
-          <div class="vthumb">🎵</div>
+          <div class="vthumb">🐰</div>
           <span class="vbadge">30s • 10 Coins</span>
-          <h4>Quick Cartoon</h4>
-          <button class="wbtn" onclick="openVideoWithAd('e_04ZrNroTo', 'Quick Cartoon', 30, 10, false, 1)">Dekhein</button>
+          <h4>Rhymes Cartoons</h4>
+          <button class="wbtn" onclick="playCleanVideo('e_04ZrNroTo', 'Rhymes Cartoons')">Dekhein</button>
         </div>
 
-        <!-- 2nd: 1 Min Kids Story -->
+        <!-- 2nd: Masha Cartoon Fun -->
         <div class="vcard">
           <div class="vthumb">🐻</div>
-          <span class="vbadge">1 Min • 20 Coins</span>
-          <h4>Mini Story</h4>
-          <button class="wbtn" onclick="openVideoWithAd('KYniUCGPGLs', 'Mini Story', 60, 20, false, 1)">Dekhein</button>
+          <span class="vbadge">30s • 10 Coins</span>
+          <h4>Bear & Friends</h4>
+          <button class="wbtn" onclick="playCleanVideo('KYniUCGPGLs', 'Bear & Friends')">Dekhein</button>
         </div>
 
-        <!-- 3rd: 15 Min Full Cartoon (Har 3 min me 10 coins, total 50 coins) -->
+        <!-- 3rd: Motu Animated Show -->
         <div class="vcard">
           <div class="vthumb">🍿</div>
-          <span class="vbadge">15 Min • 50 Coins</span>
-          <h4>Medium Show</h4>
-          <button class="wbtn" onclick="openVideoWithAd('kJQP7kiw5Fk', 'Medium Show', 180, 10, true, 5)">Dekhein</button>
+          <span class="vbadge">30s • 10 Coins</span>
+          <h4>Motu Comedy</h4>
+          <button class="wbtn" onclick="playCleanVideo('kJQP7kiw5Fk', 'Motu Comedy')">Dekhein</button>
         </div>
 
-        <!-- 4th: 1 Hour Mega Hindi Kids Show (Har 5 min me 20 coins) -->
+        <!-- 4th: Magic Cartoons -->
         <div class="vcard">
-          <div class="vthumb">👑</div>
-          <span class="vbadge">1 Hour Mega</span>
-          <h4>Full Mega Show</h4>
-          <button class="wbtn" onclick="openVideoWithAd('EngW7tLk6R8', 'Full Mega Show', 300, 20, true, 12)">Dekhein</button>
+          <div class="vthumb">🎨</div>
+          <span class="vbadge">30s • 10 Coins</span>
+          <h4>Kids Magic Fun</h4>
+          <button class="wbtn" onclick="playCleanVideo('EngW7tLk6R8', 'Kids Magic Fun')">Dekhein</button>
         </div>
       </div>
     </div>
@@ -130,9 +130,9 @@
       <div class="vwrap">
         <iframe id="vFrame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div id="breakBox" class="break-overlay">
-          <h3 style="color:var(--acc);margin-bottom:6px;" id="bHead">🎉 Bonus Added!</h3>
-          <p style="font-size:13px;margin-bottom:14px;" id="bMsg">Aapke coins wallet me jama ho gaye hain.</p>
-          <button id="contBtn" class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="resumePlay()">▶ Continue Dekhein</button>
+          <h3 style="color:var(--acc);margin-bottom:6px;">🎉 Mubarak!</h3>
+          <p style="font-size:13px;margin-bottom:14px;">+10 Coins aapke wallet me add ho gaye hain!</p>
+          <button class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="closeP()">Close Video</button>
         </div>
       </div>
       <div id="tTxt" style="font-size:14px;color:var(--acc);margin:8px 0;font-weight:bold;"></div>
@@ -143,13 +143,11 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
-    const AD_DIRECT_LINK = "https://uplcm.com/4/12101406";
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
-
-    let timer = null, sec = 0, isLoop = false, loopCount = 0, maxLoops = 1, currentReward = 10, currentInterval = 30;
+    let timer = null, sec = 30;
 
     function sync() {
       document.getElementById('cb').innerText = coins;
@@ -171,17 +169,7 @@
       document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
-    function fmtTime(s) {
-      const m = Math.floor(s / 60);
-      const rem = s % 60;
-      return `${m}m ${rem < 10 ? '0' : ''}${rem}s`;
-    }
-
-    function openVideoWithAd(ytId, title, intervalSec, rewardCoins, loopMode, maxRounds) {
-      // 1. User ke direct tap par turant ad open hoga (Chrome ise block nahi karega)
-      window.open(AD_DIRECT_LINK, '_blank');
-
-      // 2. Video modal initialize hoga
+    function playCleanVideo(ytId, title) {
       document.getElementById('mTitle').innerText = title;
       document.getElementById('breakBox').style.display = 'none';
 
@@ -189,51 +177,24 @@
       frame.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&controls=1`;
       document.getElementById('vMod').style.display = 'flex';
 
-      currentInterval = intervalSec;
-      currentReward = rewardCoins;
-      isLoop = loopMode;
-      maxLoops = maxRounds;
-      loopCount = 0;
-      sec = currentInterval;
+      sec = 30;
+      document.getElementById('tTxt').innerText = `⏳ Reward bacha hai: ${sec}s`;
 
-      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
-      startCountdown();
-    }
-
-    function startCountdown() {
       clearInterval(timer);
       timer = setInterval(() => {
         sec--;
         if (sec > 0) {
-          document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
+          document.getElementById('tTxt').innerText = `⏳ Reward bacha hai: ${sec}s`;
         } else {
           clearInterval(timer);
-          coins += currentReward;
+          coins += 10;
           localStorage.setItem('vw_c', coins);
           sync();
-          loopCount++;
 
-          document.getElementById('bHead').innerText = `🎉 +${currentReward} Coins Added!`;
-          document.getElementById('bMsg').innerText = `Badhaai ho! Aapke wallet me ${currentReward} coins credit ho gaye.`;
-          
-          if (isLoop && loopCount < maxLoops) {
-            document.getElementById('contBtn').style.display = 'inline-block';
-          } else {
-            document.getElementById('contBtn').style.display = 'none';
-            document.getElementById('tTxt').innerText = "🏆 Session Complete!";
-          }
+          document.getElementById('tTxt').innerText = "✅ +10 Coins Added!";
           document.getElementById('breakBox').style.display = 'flex';
         }
       }, 1000);
-    }
-
-    function resumePlay() {
-      // Break se aage badhne par firse ad trigger
-      window.open(AD_DIRECT_LINK, '_blank');
-      document.getElementById('breakBox').style.display = 'none';
-      sec = currentInterval;
-      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
-      startCountdown();
     }
 
     function closeP() {
@@ -340,5 +301,5 @@
     }
   </script>
 </body>
-          </html>
+                                 </html>
   
