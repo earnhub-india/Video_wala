@@ -55,10 +55,10 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">🎨</div><h4>Cartoon Kahaniya</h4><button class="wbtn" onclick="play('u1z41Ltwy2o','Cartoon Kahaniya')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🌟</div><h4>Moral Stories</h4><button class="wbtn" onclick="play('YHzM4PvU1nk','Moral Stories')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🚀</div><h4>Space Facts</h4><button class="wbtn" onclick="play('L_LUpnjgPso','Space Facts')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🦁</div><h4>Animal World</h4><button class="wbtn" onclick="play('35npR-i2Ue4','Animal World')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐻</div><h4>Masha & Bear</h4><button class="wbtn" onclick="play('KYniUCGPGLs','Masha & Bear')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐰</div><h4>Kids Rhymes</h4><button class="wbtn" onclick="play('e_04ZrNroTo','Kids Rhymes')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🌍</div><h4>Nature World</h4><button class="wbtn" onclick="play('EngW7tLk6R8','Nature World')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🎨</div><h4>Fun Cartoon</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Fun Cartoon')">Dekhein</button></div>
       </div>
     </div>
 
@@ -101,9 +101,11 @@
   <div id="vMod" class="modal">
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
-      <div class="vwrap"><iframe id="vFrame" allow="autoplay;encrypted-media" allowfullscreen></iframe></div>
-      <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:10px;font-weight:bold;"></div>
-      <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;" onclick="closeP()">Close</button>
+      <div class="vwrap">
+        <iframe id="vFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:6px;font-weight:bold;"></div>
+      <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;margin-top:8px;" onclick="closeP()">Close</button>
     </div>
   </div>
 
@@ -141,9 +143,8 @@
     }
 
     function play(id, title) {
-      // Ad link poori tarah hata diya gaya hai - safe video playback
       document.getElementById('mTitle').innerText = title;
-      document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      document.getElementById('vFrame').src = "https://www.youtube.com/embed/" + id + "?autoplay=1&mute=1&playsinline=1";
       document.getElementById('vMod').style.display = 'flex';
       sec = 30;
       isRewardClaimed = false;
@@ -269,10 +270,9 @@
     }
 
     function shareRef() {
-      const t = encodeURIComponent(`VideoWala par video dekh kar maze karein! Link: ${window.location.href}`);
+      const t = encodeURIComponent(`VideoWala par videos dekhein aur coins kamayein! Link: ${window.location.href}`);
       window.open(`https://api.whatsapp.com/send?text=${t}`, '_blank');
     }
   </script>
 </body>
-  </html>
-  
+</html>
