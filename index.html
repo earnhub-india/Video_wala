@@ -41,7 +41,6 @@
 
     main { max-width: 600px; margin: auto; padding: 16px; }
 
-    /* Tabs */
     .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
     .tab-btn {
       flex: 1;
@@ -64,7 +63,6 @@
       margin-bottom: 20px;
     }
 
-    /* Banner */
     .banner {
       background: linear-gradient(135deg, #4f46e5, #7c3aed);
       border-radius: 16px;
@@ -74,7 +72,6 @@
     .banner h2 { font-size: 20px; margin-bottom: 8px; }
     .banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
 
-    /* Daily Bonus Card */
     .bonus-card {
       background: linear-gradient(135deg, #2c3e50, #3498db);
       border-radius: 14px;
@@ -97,7 +94,6 @@
       cursor: pointer;
     }
 
-    /* Videos */
     .section-title { font-size: 18px; margin-bottom: 14px; }
     .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .video-card {
@@ -131,7 +127,6 @@
       cursor: pointer;
     }
 
-    /* Wallet Section */
     #walletSection, #profileSection { display: none; }
     .wallet-card {
       background: linear-gradient(135deg, #1e295d, #141c42);
@@ -186,7 +181,6 @@
       font-weight: bold;
     }
 
-    /* Modal Player */
     .modal {
       display: none;
       position: fixed;
@@ -220,7 +214,6 @@
 </head>
 <body>
 
-  <!-- Top Bar -->
   <header>
     <div class="logo" onclick="switchTab('videos')">▶ Video<span>Wala</span></div>
     <div class="coin-badge">🪙 <span id="coinBalance">0</span> Coins</div>
@@ -359,7 +352,6 @@
   </div>
 
   <script>
-    // State
     let userCoins = parseInt(localStorage.getItem('user_coins')) || 0;
     let withdrawals = JSON.parse(localStorage.getItem('user_withdrawals')) || [];
     let userProfile = JSON.parse(localStorage.getItem('user_profile')) || { name: 'Guest User', phone: '' };
@@ -386,7 +378,6 @@
     renderHistory();
     checkDailyBonusStatus();
 
-    // Tabs
     function switchTab(tab) {
       document.getElementById('videoSection').style.display = (tab === 'videos') ? 'block' : 'none';
       document.getElementById('walletSection').style.display = (tab === 'wallet') ? 'block' : 'none';
@@ -397,7 +388,6 @@
       document.getElementById('tabProfileBtn').className = 'tab-btn' + (tab === 'profile' ? ' active' : '');
     }
 
-    // Video Player
     let countdownInterval;
     let timeLeft = 30;
 
@@ -434,7 +424,6 @@
       document.getElementById('videoModal').style.display = 'none';
     }
 
-    // Daily Bonus
     function checkDailyBonusStatus() {
       const today = new Date().toDateString();
       const lastClaim = localStorage.getItem('last_bonus_date');
@@ -442,5 +431,119 @@
       if (lastClaim === today) {
         btn.innerText = "Claimed ✔";
         btn.style.background = "#57606f";
-        btn.disabled =
-          
+        btn.disabled = true;
+      }
+    }
+
+    function claimDailyBonus() {
+      const today = new Date().toDateString();
+      const lastClaim = localStorage.getItem('last_bonus_date');
+      if (lastClaim === today) {
+        alert('Aapne aaj ka bonus claim kar liya hai. Kal dobara aayen!');
+        return;
+      }
+      userCoins += 25;
+      localStorage.setItem('user_coins', userCoins);
+      localStorage.setItem('last_bonus_date', today);
+      updateBalances();
+      checkDailyBonusStatus();
+      alert('🎉 Badhai ho! Daily check-in bonus ke 25 Coins mil gaye!');
+    }
+
+    function handleWithdraw() {
+      const upi = document.getElementById('upiInput').value.trim();
+      const amount = parseInt(document.getElementById('withdrawAmount').value);
+
+      if (!upi || !upi.includes('@')) {
+        alert('Kripya ek valid UPI ID daalein (e.g. name@okhdfcbank)');
+        return;
+      }
+      if (isNaN(amount) || amount < 50) {
+        alert('Kam se kam 50 Coins ka withdrawal request laga sakte hain (₹5)!');
+        return;
+      }
+      if (amount > userCoins) {
+        alert('Aapke paas paryapt coins nahi hain!');
+        return;
+      }
+
+      const withdrawBtn = document.getElementById('withdrawBtn');
+      withdrawBtn.disabled = true;
+      withdrawBtn.innerText = "Processing...";
+
+      const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf45xs2P0LN26bHSLfx0VVVfX71gL_XhQ8yZ1SUH6D28k_Wqw/formResponse";
+      const formData = new FormData();
+      formData.append("entry.418968820", userProfile.name || "Guest");
+      formData.append("entry.888349764", userProfile.phone || "N/A");
+      formData.append("entry.614241502", upi);
+      formData.append("entry.1732203216", `${amount} Coins (₹${(amount / 10).toFixed(2)})`);
+
+      fetch(formURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }).then(() => {
+        userCoins -= amount;
+        localStorage.setItem('user_coins', userCoins);
+        updateBalances();
+
+        const newRecord = {
+          upi: upi,
+          coins: amount,
+          rupees: (amount / 10).toFixed(2),
+          date: new Date().toLocaleDateString('en-IN'),
+          status: 'Pending'
+        };
+
+        withdrawals.unshift(newRecord);
+        localStorage.setItem('user_withdrawals', JSON.stringify(withdrawals));
+        renderHistory();
+
+        document.getElementById('upiInput').value = '';
+        document.getElementById('withdrawAmount').value = '';
+        withdrawBtn.disabled = false;
+        withdrawBtn.innerText = "Withdrawal Request Lagayein";
+
+        alert(`Badhai ho! ₹${newRecord.rupees} ki withdrawal request direct sheet me darj ho gayi hai.`);
+      }).catch(err => {
+        withdrawBtn.disabled = false;
+        withdrawBtn.innerText = "Withdrawal Request Lagayein";
+        alert("Network error. Kripya dobara try karein.");
+      });
+    }
+
+    function renderHistory() {
+      const listEl = document.getElementById('historyList');
+      if (withdrawals.length === 0) {
+        listEl.innerHTML = `<div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>`;
+        return;
+      }
+      listEl.innerHTML = withdrawals.map(item => `
+        <div class="history-item">
+          <div>
+            <strong>₹${item.rupees}</strong> (${item.coins} Coins)<br>
+            <span style="font-size: 11px; color: var(--text-dim);">${item.upi} • ${item.date}</span>
+          </div>
+          <span class="status-badge">${item.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('nameInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name) { alert('Kripya naam enter karein'); return; }
+      userProfile = { name, phone };
+      localStorage.setItem('user_profile', JSON.stringify(userProfile));
+      initProfile();
+      alert('Profile details successfully save ho gayi hain!');
+    }
+
+    function shareReferral() {
+      const text = encodeURIComponent(`VideoWala App par videos dekho aur rozana paise kamao! Mera referral code use karein: VW7890. Link: ${window.location.href}`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+  </script>
+</body>
+  </html>
+            
