@@ -1,41 +1,278 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VideoWala — Free Demo</title>
-<style>
-:root{--bg:#0b1027;--card:#171e3d;--purple:#713cff;--yellow:#ffd43b;--muted:#aeb8d8}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0b1027,#17104a);color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{padding:18px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0b1027ed;backdrop-filter:blur(8px);z-index:2;border-bottom:1px solid #30365b}
-.logo{font-weight:900;font-size:22px}.logo span{color:var(--yellow)}.pill{background:#252d51;border:1px solid #414b78;border-radius:22px;padding:8px 12px;font-weight:700}
-main{max-width:760px;margin:auto;padding:16px}.hero{background:linear-gradient(120deg,#713cff,#3021a0);padding:22px;border-radius:22px}.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;color:#eee}.notice{font-size:12px;color:#ffe9a6;margin-top:12px}
-.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0}.tab{border:0;border-radius:20px;padding:10px 15px;background:#20284a;color:#fff;white-space:nowrap}.tab.active{background:var(--yellow);color:#17152a;font-weight:800}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}.card{background:var(--card);border:1px solid #30395f;border-radius:17px;overflow:hidden}.thumb{height:130px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#3b2c90,#1d9bba)}.card:nth-child(2) .thumb{background:linear-gradient(135deg,#bd315f,#ff9d45)}.card:nth-child(3) .thumb{background:linear-gradient(135deg,#137c68,#6b49e8)}.card:nth-child(4) .thumb{background:linear-gradient(135deg,#a14ed1,#2637a2)}.cardbody{padding:12px}.card h3{font-size:14px;margin:0 0 6px}.muted{color:var(--muted);font-size:12px}.btn{border:0;background:var(--purple);color:#fff;padding:11px 14px;border-radius:12px;font-weight:800;width:100%;margin-top:10px}.btn.yellow{background:var(--yellow);color:#17152a}.panel{background:var(--card);border:1px solid #30395f;border-radius:18px;padding:16px;margin:16px 0}.balance{font-size:32px;font-weight:900;color:var(--yellow)}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.small{font-size:12px;color:var(--muted);line-height:1.5}footer{text-align:center;padding:24px;color:var(--muted);font-size:12px}.hidden{display:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VideoWala - Watch & Earn</title>
+  <style>
+    :root {
+      --bg: #0b1027;
+      --card: #171e3d;
+      --primary: #6c5ce7;
+      --accent: #ffb703;
+      --text: #ffffff;
+      --text-dim: #a0aec0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
+
+    /* Top Bar */
+    header {
+      background: #111738;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #232c58;
+    }
+    .logo { font-size: 20px; font-weight: 900; color: #fff; }
+    .logo span { color: var(--accent); }
+    .coin-badge {
+      background: #232c58;
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Container */
+    main { max-width: 600px; margin: auto; padding: 16px; }
+
+    /* Banner */
+    .banner {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .banner h2 { font-size: 20px; margin-bottom: 8px; }
+    .banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: var(--card);
+      color: var(--text-dim);
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active { background: var(--accent); color: #000; }
+
+    /* Video Grid */
+    .section-title { font-size: 18px; margin-bottom: 14px; }
+    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .video-card {
+      background: var(--card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #232c58;
+      display: flex;
+      flex-direction: column;
+    }
+    .thumbnail-box {
+      height: 120px;
+      background: linear-gradient(45deg, #2b3566, #1f274a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    .video-info { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .video-info h4 { font-size: 14px; margin-bottom: 4px; }
+    .video-info p { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .watch-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Video Modal Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .modal-content {
+      background: var(--card);
+      width: 100%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%; border: none;
+    }
+    .timer-badge {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .close-btn {
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<header><div class="logo">▶ Video<span>Wala</span></div><div class="pill">🪙 <span id="topCoins">0</span> demo coins</div></header>
-<main>
-<section class="hero"><h1>Video dekho. Naye videos khojo.</h1><p>Entertainment, comedy aur short video ka ek simple demo.</p><div class="notice">⚠️ Demo mode: yahan coins sirf testing ke liye hain. Ye real paise nahi hain aur withdrawal available nahi hai.</div></section>
-<div class="tabs"><button class="tab active" onclick="showTab('videos',this)">🎬 Videos</button><button class="tab" onclick="showTab('earn',this)">🎁 Rewards demo</button><button class="tab" onclick="showTab('wallet',this)">👛 Wallet</button></div>
-<section id="videos">
-<h2>Trending videos</h2><div class="grid">
-<article class="card"><div class="thumb">😂</div><div class="cardbody"><h3>Comedy shorts</h3><div class="muted">Fun • 30 sec</div><button class="btn" onclick="watch('Comedy shorts')">Video dekhein</button></div></article>
-<article class="card"><div class="thumb">🎵</div><div class="cardbody"><h3>Music & dance</h3><div class="muted">Music • 45 sec</div><button class="btn" onclick="watch('Music & dance')">Video dekhein</button></div></article>
-<article class="card"><div class="thumb">📱</div><div class="cardbody"><h3>Mobile tips</h3><div class="muted">Tech • 60 sec</div><button class="btn" onclick="watch('Mobile tips')">Video dekhein</button></div></article>
-<article class="card"><div class="thumb">🌟</div><div class="cardbody"><h3>Daily motivation</h3><div class="muted">Motivation • 40 sec</div><button class="btn" onclick="watch('Daily motivation')">Video dekhein</button></div></article>
-</div></section>
-<section id="earn" class="hidden"><div class="panel"><h2>🎁 Rewards demo</h2><p>Yeh button sirf app ka sample flow dikhata hai. Isse koi ad revenue ya real reward nahi milta.</p><button class="btn yellow" onclick="demoReward()">Reward flow test karein (+5 demo coins)</button><p class="small" id="rewardMsg"></p></div></section>
-<section id="wallet" class="hidden"><div class="panel"><div class="muted">Aapka demo balance</div><div class="balance"><span id="walletCoins">0</span> coins</div><p class="small">Coins local demo ke liye hain. UPI/bank withdrawal set up nahi hai. Real payments ke liye backend, verified ad network, fraud controls aur legal/payment setup chahiye.</p><button class="btn" onclick="alert('Demo only: real withdrawal abhi enabled nahi hai.')">Withdrawal setup (not active)</button></div></section>
-</main>
-<footer>VideoWala starter demo • Free to test • Real earning guaranteed nahi hai</footer>
-<script>
-let coins=0;
-function update(){document.getElementById('topCoins').textContent=coins;document.getElementById('walletCoins').textContent=coins}
-function showTab(id,el){['videos','earn','wallet'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active')}
-function watch(name){alert('Demo: "'+name+'" video selected. Real videos ke liye apne licensed video links/content add karein.');}
-function demoReward(){coins+=5;update();document.getElementById('rewardMsg').textContent='5 demo coins add hue. Ye real money nahi hai.'}
-</script>
+
+  <!-- Top Bar -->
+  <header>
+    <div class="logo">▶ Video<span>Wala</span></div>
+    <div class="coin-badge">🪙 <span id="coinBalance">0</span> Coins</div>
+  </header>
+
+  <main>
+    <!-- Welcome Banner -->
+    <div class="banner">
+      <h2>Video dekho aur Coins kamao!</h2>
+      <p>Har video ko 30 seconds tak dekhiye aur instantly apne wallet me 10 coins paiye.</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active">🎬 Videos</button>
+      <button class="tab-btn" onclick="alert('Wallet aur UPI system Step 2 me add hoga!')">👛 Wallet</button>
+      <button class="tab-btn" onclick="alert('Profile login Step 3 me add hoga!')">👤 Profile</button>
+    </div>
+
+    <!-- Video List -->
+    <h3 class="section-title">Trending Videos</h3>
+    <div class="video-grid">
+
+      <!-- Card 1 -->
+      <div class="video-card">
+        <div class="thumbnail-box">😂</div>
+        <div class="video-info">
+          <h4>Comedy Shorts</h4>
+          <p>Reward: 10 Coins</p>
+          <button class="watch-btn" onclick="playVideo('M7lc1UVf-VE', 'Comedy Shorts')">Video Dekhein</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="video-card">
+        <div class="thumbnail-box">🎵</div>
+        <div class="video-info">
+          <h4>Music & Dance</h4>
+          <p>Reward: 10 Coins</p>
+          <button class="watch-btn" onclick="playVideo('kJQP7kiw5Fk', 'Music & Dance')">Video Dekhein</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="video-card">
+        <div class="thumbnail-box">📱</div>
+        <div class="video-info">
+          <h4>Tech & Gadgets</h4>
+          <p>Reward: 10 Coins</p>
+          <button class="watch-btn" onclick="playVideo('dQw4w9WgXcQ', 'Tech & Gadgets')">Video Dekhein</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="video-card">
+        <div class="thumbnail-box">⭐</div>
+        <div class="video-info">
+          <h4>Viral Facts</h4>
+          <p>Reward: 10 Coins</p>
+          <button class="watch-btn" onclick="playVideo('L_LUpnjgPso', 'Viral Facts')">Video Dekhein</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Video Watch Modal -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle" style="margin-bottom: 10px;">Video Player</h3>
+      <div class="video-wrapper">
+        <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <div class="timer-badge" id="timerText">⏳ 30 seconds dekhein coins paane ke liye...</div>
+      <button class="close-btn" onclick="closePlayer()">Band Karein (Close)</button>
+    </div>
+  </div>
+
+  <script>
+    // Coins State (saved in browser memory)
+    let userCoins = parseInt(localStorage.getItem('user_coins')) || 0;
+    document.getElementById('coinBalance').innerText = userCoins;
+
+    let countdownInterval;
+    let timeLeft = 30;
+
+    function playVideo(videoId, title) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      document.getElementById('videoModal').style.display = 'flex';
+
+      timeLeft = 30;
+      document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
+
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
+        } else {
+          clearInterval(countdownInterval);
+          addReward();
+        }
+      }, 1000);
+    }
+
+    function addReward() {
+      userCoins += 10;
+      localStorage.setItem('user_coins', userCoins);
+      document.getElementById('coinBalance').innerText = userCoins;
+      document.getElementById('timerText').innerText = "🎉 Mubarak! Aapko 10 Coins mil gaye!";
+    }
+
+    function closePlayer() {
+      clearInterval(countdownInterval);
+      document.getElementById('videoFrame').src = "";
+      document.getElementById('videoModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
