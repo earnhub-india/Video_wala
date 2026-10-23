@@ -56,10 +56,10 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">🐰</div><h4>Bunny Cartoon</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4','Bunny Cartoon')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🚗</div><h4>Speed Race</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4','Speed Race')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🌟</div><h4>Dream Story</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4','Dream Story')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🦜</div><h4>Nature Fun</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4','Nature Fun')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐰</div><h4>Bunny Cartoon</h4><button class="wbtn" onclick="play('https://vjs.zencdn.net/v/oceans.mp4','Bunny Cartoon')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🚗</div><h4>Speed Animation</h4><button class="wbtn" onclick="play('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4','Speed Animation')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🌟</div><h4>Dream Story</h4><button class="wbtn" onclick="play('https://vjs.zencdn.net/v/oceans.mp4','Dream Story')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🦜</div><h4>Nature Fun</h4><button class="wbtn" onclick="play('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4','Nature Fun')">Dekhein</button></div>
       </div>
     </div>
 
@@ -103,7 +103,7 @@
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
       <div class="vwrap">
-        <video id="vPlayer" controls playsinline loop></video>
+        <video id="vPlayer" controls playsinline preload="auto"></video>
         <div id="breakBox" class="break-overlay">
           <h3 style="color:var(--acc);margin-bottom:8px;">🎉 5 Minute Bonus!</h3>
           <p style="font-size:13px;margin-bottom:14px;">Aapne 5 minute video dekhi, aapko mile <b>+10 Coins</b> 🪙</p>
@@ -118,7 +118,7 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
-    const INTERVAL_SECONDS = 300; // Har 5 minute (300s) me reward break
+    const INTERVAL_SECONDS = 300;
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
@@ -160,9 +160,15 @@
       document.getElementById('breakBox').style.display = 'none';
       const player = document.getElementById('vPlayer');
       player.src = videoUrl;
-      player.play().catch(e => console.log('Autoplay tap'));
+      player.muted = true;
       document.getElementById('vMod').style.display = 'flex';
       
+      player.play().then(() => {
+        player.muted = false;
+      }).catch(() => {
+        // Fallback agar mobile autoplay rok le to user manual play kar sake
+      });
+
       sec = INTERVAL_SECONDS;
       document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
       startTimer();
@@ -171,7 +177,10 @@
     function startTimer() {
       clearInterval(timer);
       timer = setInterval(() => {
-        if (!isTabActive) return;
+        const player = document.getElementById('vPlayer');
+        // Timer tabhi aage badhega jab video sach me chal rahi ho
+        if (!isTabActive || player.paused) return;
+        
         sec--;
         if (sec > 0) {
           document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
@@ -181,7 +190,6 @@
           localStorage.setItem('vw_c', coins);
           sync();
           
-          const player = document.getElementById('vPlayer');
           player.pause();
           document.getElementById('breakBox').style.display = 'flex';
           document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
@@ -192,7 +200,7 @@
     function resumePlay() {
       document.getElementById('breakBox').style.display = 'none';
       const player = document.getElementById('vPlayer');
-      player.play();
+      player.play().catch(e => console.log(e));
       sec = INTERVAL_SECONDS;
       document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
       startTimer();
@@ -202,7 +210,8 @@
       clearInterval(timer);
       const player = document.getElementById('vPlayer');
       player.pause();
-      player.src = "";
+      player.removeAttribute('src');
+      player.load();
       document.getElementById('breakBox').style.display = 'none';
       document.getElementById('vMod').style.display = 'none';
     }
@@ -307,5 +316,5 @@
     }
   </script>
 </body>
-        </html>
-          
+  </html>
+  
