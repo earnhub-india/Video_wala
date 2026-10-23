@@ -12,11 +12,12 @@
       --accent: #ffb703;
       --text: #ffffff;
       --text-dim: #a0aec0;
+      --green: #00b894;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
 
-    /* Top Bar */
+    /* Header */
     header {
       background: #111738;
       padding: 16px;
@@ -28,7 +29,7 @@
       z-index: 100;
       border-bottom: 1px solid #232c58;
     }
-    .logo { font-size: 20px; font-weight: 900; color: #fff; }
+    .logo { font-size: 20px; font-weight: 900; color: #fff; cursor: pointer; }
     .logo span { color: var(--accent); }
     .coin-badge {
       background: #232c58;
@@ -37,13 +38,25 @@
       border-radius: 20px;
       font-weight: 700;
       color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    /* Container */
     main { max-width: 600px; margin: auto; padding: 16px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: var(--card);
+      color: var(--text-dim);
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .tab-btn.active { background: var(--accent); color: #000; }
 
     /* Banner */
     .banner {
@@ -55,21 +68,7 @@
     .banner h2 { font-size: 20px; margin-bottom: 8px; }
     .banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      background: var(--card);
-      color: var(--text-dim);
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .tab-btn.active { background: var(--accent); color: #000; }
-
-    /* Video Grid */
+    /* Videos Grid */
     .section-title { font-size: 18px; margin-bottom: 14px; }
     .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .video-card {
@@ -96,14 +95,82 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 8px;
+      padding: 9px;
       border-radius: 8px;
       font-weight: bold;
       font-size: 12px;
       cursor: pointer;
     }
 
-    /* Video Modal Popup */
+    /* Wallet Section */
+    #walletSection { display: none; }
+    .wallet-card {
+      background: linear-gradient(135deg, #1e295d, #141c42);
+      border: 1px solid #3b4885;
+      border-radius: 18px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .wallet-card h3 { font-size: 14px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
+    .balance-huge { font-size: 38px; font-weight: 900; color: var(--accent); margin-bottom: 6px; }
+    .rupee-value { font-size: 15px; color: var(--green); font-weight: 700; }
+
+    .form-card {
+      background: var(--card);
+      border: 1px solid #232c58;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-dim); }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0b1027;
+      border: 1px solid #313d74;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .withdraw-btn {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .history-card {
+      background: var(--card);
+      border: 1px solid #232c58;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #232c58;
+      font-size: 13px;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .status-badge {
+      background: #fdcb6e;
+      color: #000;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    /* Modal Player */
     .modal {
       display: none;
       position: fixed;
@@ -121,7 +188,6 @@
       border-radius: 16px;
       padding: 16px;
       text-align: center;
-      position: relative;
     }
     .video-wrapper {
       position: relative;
@@ -131,93 +197,98 @@
       overflow: hidden;
       margin-bottom: 12px;
     }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%; border: none;
-    }
-    .timer-badge {
-      font-size: 14px;
-      color: var(--accent);
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    .close-btn {
-      background: #ff4757;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .timer-badge { font-size: 14px; color: var(--accent); font-weight: bold; margin: 10px 0; }
+    .close-btn { background: #ff4757; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <!-- Top Bar -->
   <header>
-    <div class="logo">▶ Video<span>Wala</span></div>
+    <div class="logo" onclick="switchTab('videos')">▶ Video<span>Wala</span></div>
     <div class="coin-badge">🪙 <span id="coinBalance">0</span> Coins</div>
   </header>
 
   <main>
-    <!-- Welcome Banner -->
-    <div class="banner">
-      <h2>Video dekho aur Coins kamao!</h2>
-      <p>Har video ko 30 seconds tak dekhiye aur instantly apne wallet me 10 coins paiye.</p>
-    </div>
-
     <!-- Navigation Tabs -->
     <div class="tabs">
-      <button class="tab-btn active">🎬 Videos</button>
-      <button class="tab-btn" onclick="alert('Wallet aur UPI system Step 2 me add hoga!')">👛 Wallet</button>
-      <button class="tab-btn" onclick="alert('Profile login Step 3 me add hoga!')">👤 Profile</button>
+      <button id="tabVideosBtn" class="tab-btn active" onclick="switchTab('videos')">🎬 Videos</button>
+      <button id="tabWalletBtn" class="tab-btn" onclick="switchTab('wallet')">👛 Wallet</button>
+      <button class="tab-btn" onclick="alert('Profile section Step 3 me aayega!')">👤 Profile</button>
     </div>
 
-    <!-- Video List -->
-    <h3 class="section-title">Trending Videos</h3>
-    <div class="video-grid">
-
-      <!-- Card 1 -->
-      <div class="video-card">
-        <div class="thumbnail-box">😂</div>
-        <div class="video-info">
-          <h4>Comedy Shorts</h4>
-          <p>Reward: 10 Coins</p>
-          <button class="watch-btn" onclick="playVideo('M7lc1UVf-VE', 'Comedy Shorts')">Video Dekhein</button>
-        </div>
+    <!-- VIDEOS SECTION -->
+    <div id="videoSection">
+      <div class="banner">
+        <h2>Video dekho aur Coins kamao!</h2>
+        <p>Har video ko 30 seconds tak dekhiye aur instantly apne wallet me 10 coins paiye.</p>
       </div>
 
-      <!-- Card 2 -->
-      <div class="video-card">
-        <div class="thumbnail-box">🎵</div>
-        <div class="video-info">
-          <h4>Music & Dance</h4>
-          <p>Reward: 10 Coins</p>
-          <button class="watch-btn" onclick="playVideo('kJQP7kiw5Fk', 'Music & Dance')">Video Dekhein</button>
+      <h3 class="section-title">Trending Videos</h3>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="thumbnail-box">😂</div>
+          <div class="video-info">
+            <h4>Comedy Shorts</h4>
+            <p>Reward: 10 Coins</p>
+            <button class="watch-btn" onclick="playVideo('M7lc1UVf-VE', 'Comedy Shorts')">Video Dekhein</button>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="thumbnail-box">🎵</div>
+          <div class="video-info">
+            <h4>Music & Dance</h4>
+            <p>Reward: 10 Coins</p>
+            <button class="watch-btn" onclick="playVideo('kJQP7kiw5Fk', 'Music & Dance')">Video Dekhein</button>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="thumbnail-box">📱</div>
+          <div class="video-info">
+            <h4>Tech & Gadgets</h4>
+            <p>Reward: 10 Coins</p>
+            <button class="watch-btn" onclick="playVideo('dQw4w9WgXcQ', 'Tech & Gadgets')">Video Dekhein</button>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="thumbnail-box">⭐</div>
+          <div class="video-info">
+            <h4>Viral Facts</h4>
+            <p>Reward: 10 Coins</p>
+            <button class="watch-btn" onclick="playVideo('L_LUpnjgPso', 'Viral Facts')">Video Dekhein</button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Card 3 -->
-      <div class="video-card">
-        <div class="thumbnail-box">📱</div>
-        <div class="video-info">
-          <h4>Tech & Gadgets</h4>
-          <p>Reward: 10 Coins</p>
-          <button class="watch-btn" onclick="playVideo('dQw4w9WgXcQ', 'Tech & Gadgets')">Video Dekhein</button>
-        </div>
+    <!-- WALLET & WITHDRAW SECTION -->
+    <div id="walletSection">
+      <div class="wallet-card">
+        <h3>Aapka Kul Balance</h3>
+        <div class="balance-huge">🪙 <span id="walletCoins">0</span></div>
+        <div class="rupee-value">≈ ₹<span id="walletRupees">0.00</span> INR (10 Coins = ₹1)</div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="video-card">
-        <div class="thumbnail-box">⭐</div>
-        <div class="video-info">
-          <h4>Viral Facts</h4>
-          <p>Reward: 10 Coins</p>
-          <button class="watch-btn" onclick="playVideo('L_LUpnjgPso', 'Viral Facts')">Video Dekhein</button>
+      <div class="form-card">
+        <h3 style="margin-bottom: 14px; font-size: 16px;">Instant UPI Withdrawal</h3>
+        <div class="form-group">
+          <label>UPI ID (GooglePay / PhonePe / Paytm)</label>
+          <input type="text" id="upiInput" placeholder="example@oksbi / 9876543210@paytm">
         </div>
+        <div class="form-group">
+          <label>Kitne Coins Withdraw karne hain? (Min: 50 Coins)</label>
+          <input type="number" id="withdrawAmount" placeholder="e.g. 50">
+        </div>
+        <button class="withdraw-btn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
       </div>
 
+      <div class="history-card">
+        <h3 style="margin-bottom: 12px; font-size: 15px;">Withdrawal History</h3>
+        <div id="historyList">
+          <div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -234,10 +305,34 @@
   </div>
 
   <script>
-    // Coins State (saved in browser memory)
+    // State management
     let userCoins = parseInt(localStorage.getItem('user_coins')) || 0;
-    document.getElementById('coinBalance').innerText = userCoins;
+    let withdrawals = JSON.parse(localStorage.getItem('user_withdrawals')) || [];
 
+    function updateBalances() {
+      document.getElementById('coinBalance').innerText = userCoins;
+      document.getElementById('walletCoins').innerText = userCoins;
+      document.getElementById('walletRupees').innerText = (userCoins / 10).toFixed(2);
+    }
+    updateBalances();
+    renderHistory();
+
+    // Tab switcher
+    function switchTab(tab) {
+      if (tab === 'videos') {
+        document.getElementById('videoSection').style.display = 'block';
+        document.getElementById('walletSection').style.display = 'none';
+        document.getElementById('tabVideosBtn').classList.add('active');
+        document.getElementById('tabWalletBtn').classList.remove('active');
+      } else if (tab === 'wallet') {
+        document.getElementById('videoSection').style.display = 'none';
+        document.getElementById('walletSection').style.display = 'block';
+        document.getElementById('tabVideosBtn').classList.remove('active');
+        document.getElementById('tabWalletBtn').classList.add('active');
+      }
+    }
+
+    // Video Player & Timer
     let countdownInterval;
     let timeLeft = 30;
 
@@ -264,7 +359,7 @@
     function addReward() {
       userCoins += 10;
       localStorage.setItem('user_coins', userCoins);
-      document.getElementById('coinBalance').innerText = userCoins;
+      updateBalances();
       document.getElementById('timerText').innerText = "🎉 Mubarak! Aapko 10 Coins mil gaye!";
     }
 
@@ -272,6 +367,63 @@
       clearInterval(countdownInterval);
       document.getElementById('videoFrame').src = "";
       document.getElementById('videoModal').style.display = 'none';
+    }
+
+    // Withdrawal Logic
+    function handleWithdraw() {
+      const upi = document.getElementById('upiInput').value.trim();
+      const amount = parseInt(document.getElementById('withdrawAmount').value);
+
+      if (!upi || !upi.includes('@')) {
+        alert('Kripya ek valid UPI ID daalein (e.g. name@okhdfcbank)');
+        return;
+      }
+      if (isNaN(amount) || amount < 50) {
+        alert('Kam se kam 50 Coins ka withdrawal request laga sakte hain (₹5)!');
+        return;
+      }
+      if (amount > userCoins) {
+        alert('Aapke paas paryapt coins nahi hain!');
+        return;
+      }
+
+      userCoins -= amount;
+      localStorage.setItem('user_coins', userCoins);
+      updateBalances();
+
+      const newRecord = {
+        upi: upi,
+        coins: amount,
+        rupees: (amount / 10).toFixed(2),
+        date: new Date().toLocaleDateString('en-IN'),
+        status: 'Pending'
+      };
+
+      withdrawals.unshift(newRecord);
+      localStorage.setItem('user_withdrawals', JSON.stringify(withdrawals));
+      renderHistory();
+
+      document.getElementById('upiInput').value = '';
+      document.getElementById('withdrawAmount').value = '';
+      alert(`Badhai ho! ₹${newRecord.rupees} ki withdrawal request lag gayi hai.`);
+    }
+
+    function renderHistory() {
+      const listEl = document.getElementById('historyList');
+      if (withdrawals.length === 0) {
+        listEl.innerHTML = `<div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = withdrawals.map(item => `
+        <div class="history-item">
+          <div>
+            <strong>₹${item.rupees}</strong> (${item.coins} Coins)<br>
+            <span style="font-size: 11px; color: var(--text-dim);">${item.upi} • ${item.date}</span>
+          </div>
+          <span class="status-badge">${item.status}</span>
+        </div>
+      `).join('');
     }
   </script>
 </body>
