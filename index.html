@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="monetag" content="bde4580c5ebe2c2476a7d949199cb8fc">
   <title>VideoWala - Watch & Earn</title>
   <style>
     :root { --bg: #0b1027; --card: #171e3d; --pri: #6c5ce7; --acc: #ffb703; --grn: #00b894; --dim: #a0aec0; }
@@ -205,7 +206,7 @@
       if(isNaN(amt) || amt < 50) { alert("Min withdrawal 50 Coins (₹5) hai!"); return; }
       if(amt > coins) { alert("Paryapt coins nahi hain!"); return; }
 
-            const rs = (amt / 10).toFixed(2);
+      const rs = (amt / 10).toFixed(2);
       const dt = new Date().toLocaleDateString('en-IN');
       const btn = document.getElementById('subBtn');
       btn.disabled = true;
@@ -274,5 +275,4 @@
   </script>
 </body>
 </html>
-
   
