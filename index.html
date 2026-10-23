@@ -17,7 +17,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
 
-    /* Header */
     header {
       background: #111738;
       padding: 16px;
@@ -54,9 +53,17 @@
       font-weight: 700;
       cursor: pointer;
       font-size: 13px;
-      transition: 0.2s;
     }
     .tab-btn.active { background: var(--accent); color: #000; }
+
+    /* Common Card */
+    .card {
+      background: var(--card);
+      border: 1px solid #232c58;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
 
     /* Banner */
     .banner {
@@ -68,7 +75,30 @@
     .banner h2 { font-size: 20px; margin-bottom: 8px; }
     .banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
 
-    /* Videos Grid */
+    /* Daily Bonus Card */
+    .bonus-card {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .bonus-card div h4 { font-size: 15px; margin-bottom: 2px; }
+    .bonus-card div p { font-size: 12px; opacity: 0.9; }
+    .bonus-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Videos */
     .section-title { font-size: 18px; margin-bottom: 14px; }
     .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .video-card {
@@ -103,7 +133,7 @@
     }
 
     /* Wallet Section */
-    #walletSection { display: none; }
+    #walletSection, #profileSection { display: none; }
     .wallet-card {
       background: linear-gradient(135deg, #1e295d, #141c42);
       border: 1px solid #3b4885;
@@ -116,13 +146,6 @@
     .balance-huge { font-size: 38px; font-weight: 900; color: var(--accent); margin-bottom: 6px; }
     .rupee-value { font-size: 15px; color: var(--green); font-weight: 700; }
 
-    .form-card {
-      background: var(--card);
-      border: 1px solid #232c58;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-dim); }
     .form-group input {
@@ -134,7 +157,7 @@
       color: #fff;
       font-size: 14px;
     }
-    .withdraw-btn {
+    .action-btn {
       width: 100%;
       background: var(--green);
       color: #000;
@@ -146,12 +169,6 @@
       cursor: pointer;
     }
 
-    .history-card {
-      background: var(--card);
-      border: 1px solid #232c58;
-      border-radius: 16px;
-      padding: 16px;
-    }
     .history-item {
       display: flex;
       justify-content: space-between;
@@ -215,11 +232,19 @@
     <div class="tabs">
       <button id="tabVideosBtn" class="tab-btn active" onclick="switchTab('videos')">🎬 Videos</button>
       <button id="tabWalletBtn" class="tab-btn" onclick="switchTab('wallet')">👛 Wallet</button>
-      <button class="tab-btn" onclick="alert('Profile section Step 3 me aayega!')">👤 Profile</button>
+      <button id="tabProfileBtn" class="tab-btn" onclick="switchTab('profile')">👤 Profile</button>
     </div>
 
-    <!-- VIDEOS SECTION -->
+    <!-- 1. VIDEOS SECTION -->
     <div id="videoSection">
+      <div class="bonus-card">
+        <div>
+          <h4>🎁 Daily Check-in</h4>
+          <p>Claim karein rozana +25 Coins free!</p>
+        </div>
+        <button class="bonus-btn" id="dailyBtn" onclick="claimDailyBonus()">Claim 25 🪙</button>
+      </div>
+
       <div class="banner">
         <h2>Video dekho aur Coins kamao!</h2>
         <p>Har video ko 30 seconds tak dekhiye aur instantly apne wallet me 10 coins paiye.</p>
@@ -262,7 +287,7 @@
       </div>
     </div>
 
-    <!-- WALLET & WITHDRAW SECTION -->
+    <!-- 2. WALLET SECTION -->
     <div id="walletSection">
       <div class="wallet-card">
         <h3>Aapka Kul Balance</h3>
@@ -270,7 +295,7 @@
         <div class="rupee-value">≈ ₹<span id="walletRupees">0.00</span> INR (10 Coins = ₹1)</div>
       </div>
 
-      <div class="form-card">
+      <div class="card">
         <h3 style="margin-bottom: 14px; font-size: 16px;">Instant UPI Withdrawal</h3>
         <div class="form-group">
           <label>UPI ID (GooglePay / PhonePe / Paytm)</label>
@@ -280,14 +305,45 @@
           <label>Kitne Coins Withdraw karne hain? (Min: 50 Coins)</label>
           <input type="number" id="withdrawAmount" placeholder="e.g. 50">
         </div>
-        <button class="withdraw-btn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
+        <button class="action-btn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
       </div>
 
-      <div class="history-card">
+      <div class="card">
         <h3 style="margin-bottom: 12px; font-size: 15px;">Withdrawal History</h3>
         <div id="historyList">
           <div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>
         </div>
+      </div>
+    </div>
+
+    <!-- 3. PROFILE SECTION -->
+    <div id="profileSection">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 50px; margin-bottom: 8px;">👤</div>
+        <h2 id="displayUserName" style="font-size: 20px;">Guest User</h2>
+        <p id="displayUserPhone" style="font-size: 13px; color: var(--text-dim); margin-top: 4px;">Account not linked</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 14px; font-size: 16px;">User Profile Details</h3>
+        <div class="form-group">
+          <label>Aapka Naam</label>
+          <input type="text" id="nameInput" placeholder="Apna naam likhein">
+        </div>
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="phoneInput" placeholder="10 digit mobile number">
+        </div>
+        <button class="action-btn" style="background: var(--primary); color: #fff;" onclick="saveProfile()">Profile Save Karein</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 10px; font-size: 16px;">📢 Refer & Earn</h3>
+        <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px;">Apne doston ko invite karein aur har refer par 50 Coins payein!</p>
+        <div style="background: #0b1027; padding: 12px; border-radius: 8px; border: 1px dashed var(--accent); font-weight: bold; text-align: center; margin-bottom: 14px; color: var(--accent);">
+          Referral Code: <span id="refCodeText">VW7890</span>
+        </div>
+        <button class="action-btn" style="background: #25D366; color: #fff;" onclick="shareReferral()">WhatsApp par Share karein</button>
       </div>
     </div>
   </main>
@@ -305,8 +361,183 @@
   </div>
 
   <script>
-    // State management
+    // State
     let userCoins = parseInt(localStorage.getItem('user_coins')) || 0;
+    let withdrawals = JSON.parse(localStorage.getItem('user_withdrawals')) || [];
+    let userProfile = JSON.parse(localStorage.getItem('user_profile')) || { name: 'Guest User', phone: '' };
+
+    function updateBalances() {
+      document.getElementById('coinBalance').innerText = userCoins;
+      document.getElementById('walletCoins').innerText = userCoins;
+      document.getElementById('walletRupees').innerText = (userCoins / 10).toFixed(2);
+    }
+
+    function initProfile() {
+      if (userProfile.name && userProfile.name !== 'Guest User') {
+        document.getElementById('displayUserName').innerText = userProfile.name;
+        document.getElementById('nameInput').value = userProfile.name;
+      }
+      if (userProfile.phone) {
+        document.getElementById('displayUserPhone').innerText = "+91 " + userProfile.phone;
+        document.getElementById('phoneInput').value = userProfile.phone;
+      }
+    }
+
+    updateBalances();
+    initProfile();
+    renderHistory();
+    checkDailyBonusStatus();
+
+    // Tabs
+    function switchTab(tab) {
+      document.getElementById('videoSection').style.display = (tab === 'videos') ? 'block' : 'none';
+      document.getElementById('walletSection').style.display = (tab === 'wallet') ? 'block' : 'none';
+      document.getElementById('profileSection').style.display = (tab === 'profile') ? 'block' : 'none';
+
+      document.getElementById('tabVideosBtn').className = 'tab-btn' + (tab === 'videos' ? ' active' : '');
+      document.getElementById('tabWalletBtn').className = 'tab-btn' + (tab === 'wallet' ? ' active' : '');
+      document.getElementById('tabProfileBtn').className = 'tab-btn' + (tab === 'profile' ? ' active' : '');
+    }
+
+    // Video Player
+    let countdownInterval;
+    let timeLeft = 30;
+
+    function playVideo(videoId, title) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      document.getElementById('videoModal').style.display = 'flex';
+
+      timeLeft = 30;
+      document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
+
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
+        } else {
+          clearInterval(countdownInterval);
+          addReward();
+        }
+      }, 1000);
+    }
+
+    function addReward() {
+      userCoins += 10;
+      localStorage.setItem('user_coins', userCoins);
+      updateBalances();
+      document.getElementById('timerText').innerText = "🎉 Mubarak! Aapko 10 Coins mil gaye!";
+    }
+
+    function closePlayer() {
+      clearInterval(countdownInterval);
+      document.getElementById('videoFrame').src = "";
+      document.getElementById('videoModal').style.display = 'none';
+    }
+
+    // Daily Bonus
+    function checkDailyBonusStatus() {
+      const today = new Date().toDateString();
+      const lastClaim = localStorage.getItem('last_bonus_date');
+      const btn = document.getElementById('dailyBtn');
+      if (lastClaim === today) {
+        btn.innerText = "Claimed ✔";
+        btn.style.background = "#57606f";
+        btn.disabled = true;
+      }
+    }
+
+    function claimDailyBonus() {
+      const today = new Date().toDateString();
+      const lastClaim = localStorage.getItem('last_bonus_date');
+      if (lastClaim === today) {
+        alert('Aapne aaj ka bonus claim kar liya hai. Kal dobara aayen!');
+        return;
+      }
+      userCoins += 25;
+      localStorage.setItem('user_coins', userCoins);
+      localStorage.setItem('last_bonus_date', today);
+      updateBalances();
+      checkDailyBonusStatus();
+      alert('🎉 Badhai ho! Daily check-in bonus ke 25 Coins mil gaye!');
+    }
+
+    // Wallet Withdraw
+    function handleWithdraw() {
+      const upi = document.getElementById('upiInput').value.trim();
+      const amount = parseInt(document.getElementById('withdrawAmount').value);
+
+      if (!upi || !upi.includes('@')) {
+        alert('Kripya ek valid UPI ID daalein (e.g. name@okhdfcbank)');
+        return;
+      }
+      if (isNaN(amount) || amount < 50) {
+        alert('Kam se kam 50 Coins ka withdrawal request laga sakte hain (₹5)!');
+        return;
+      }
+      if (amount > userCoins) {
+        alert('Aapke paas paryapt coins nahi hain!');
+        return;
+      }
+
+      userCoins -= amount;
+      localStorage.setItem('user_coins', userCoins);
+      updateBalances();
+
+      const newRecord = {
+        upi: upi,
+        coins: amount,
+        rupees: (amount / 10).toFixed(2),
+        date: new Date().toLocaleDateString('en-IN'),
+        status: 'Pending'
+      };
+
+      withdrawals.unshift(newRecord);
+      localStorage.setItem('user_withdrawals', JSON.stringify(withdrawals));
+      renderHistory();
+
+      document.getElementById('upiInput').value = '';
+      document.getElementById('withdrawAmount').value = '';
+      alert(`Badhai ho! ₹${newRecord.rupees} ki withdrawal request lag gayi hai.`);
+    }
+
+    function renderHistory() {
+      const listEl = document.getElementById('historyList');
+      if (withdrawals.length === 0) {
+        listEl.innerHTML = `<div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>`;
+        return;
+      }
+      listEl.innerHTML = withdrawals.map(item => `
+        <div class="history-item">
+          <div>
+            <strong>₹${item.rupees}</strong> (${item.coins} Coins)<br>
+            <span style="font-size: 11px; color: var(--text-dim);">${item.upi} • ${item.date}</span>
+          </div>
+          <span class="status-badge">${item.status}</span>
+        </div>
+      `).join('');
+    }
+
+    // Profile & Refer
+    function saveProfile() {
+      const name = document.getElementById('nameInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name) { alert('Kripya naam enter karein'); return; }
+      userProfile = { name, phone };
+      localStorage.setItem('user_profile', JSON.stringify(userProfile));
+      initProfile();
+      alert('Profile details successfully save ho gayi hain!');
+    }
+
+    function shareReferral() {
+      const text = encodeURIComponent(`VideoWala App par videos dekho aur rozana paise kamao! Mera referral code use karein: VW7890. Link: ${window.location.href}`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+  </script>
+</body>
+  </html>
+        t(localStorage.getItem('user_coins')) || 0;
     let withdrawals = JSON.parse(localStorage.getItem('user_withdrawals')) || [];
 
     function updateBalances() {
