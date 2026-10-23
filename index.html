@@ -7,7 +7,7 @@
   <style>
     :root { --bg: #0b1027; --card: #171e3d; --pri: #6c5ce7; --acc: #ffb703; --grn: #00b894; --dim: #a0aec0; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-    body { background: var(--bg); color: #fff; padding-bottom: 60px; }
+    body { background: var(--bg); color: #fff; padding-bottom: 60px; -webkit-user-select: none; user-select: none; }
     header { background: #111738; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #232c58; }
     .logo { font-size: 18px; font-weight: 900; }
     .coin-badge { background: #232c58; border: 1px solid var(--acc); padding: 5px 12px; border-radius: 20px; font-weight: 700; color: var(--acc); font-size: 13px; }
@@ -18,6 +18,7 @@
     .card { background: var(--card); border: 1px solid #232c58; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
     .bonus-card { background: linear-gradient(135deg, #1e3c72, #2a5298); border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .bbtn { background: var(--acc); color: #000; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .bbtn:disabled { opacity: 0.5; cursor: not-allowed; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .vcard { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #232c58; padding: 10px; text-align: center; }
     .vthumb { font-size: 32px; padding: 16px 0; background: #0b1027; border-radius: 8px; margin-bottom: 8px; }
@@ -30,11 +31,10 @@
     .act-btn { width: 100%; background: var(--grn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; }
     .hitem { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #232c58; font-size: 12px; }
     .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
-    .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; position: relative; }
-    .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; position: relative; }
-    .vwrap video { width: 100%; height: auto; max-height: 250px; border-radius: 8px; display: block; }
-    .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.95); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
+    .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
+    .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
+    .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
@@ -56,10 +56,10 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">🐰</div><h4>Bunny Cartoon</h4><button class="wbtn" onclick="play('https://vjs.zencdn.net/v/oceans.mp4','Bunny Cartoon')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🚗</div><h4>Speed Animation</h4><button class="wbtn" onclick="play('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4','Speed Animation')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🌟</div><h4>Dream Story</h4><button class="wbtn" onclick="play('https://vjs.zencdn.net/v/oceans.mp4','Dream Story')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🦜</div><h4>Nature Fun</h4><button class="wbtn" onclick="play('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4','Nature Fun')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐻</div><h4>Masha & Bear</h4><button class="wbtn" onclick="play('KYniUCGPGLs','Masha & Bear')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐰</div><h4>Kids Rhymes</h4><button class="wbtn" onclick="play('e_04ZrNroTo','Kids Rhymes')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🌍</div><h4>Motu Patlu Fun</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Motu Patlu Fun')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🎨</div><h4>Cartoon Magic</h4><button class="wbtn" onclick="play('EngW7tLk6R8','Cartoon Magic')">Dekhein</button></div>
       </div>
     </div>
 
@@ -103,27 +103,48 @@
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
       <div class="vwrap">
-        <video id="vPlayer" controls playsinline preload="auto"></video>
-        <div id="breakBox" class="break-overlay">
-          <h3 style="color:var(--acc);margin-bottom:8px;">🎉 5 Minute Bonus!</h3>
-          <p style="font-size:13px;margin-bottom:14px;">Aapne 5 minute video dekhi, aapko mile <b>+10 Coins</b> 🪙</p>
-          <button class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="resumePlay()">▶ Continue Video</button>
-        </div>
+        <iframe id="vFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
       </div>
-      <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:6px;font-weight:bold;"></div>
-      <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;margin-top:8px;" onclick="closeP()">Close</button>
+      <div id="tTxt" style="font-size:14px;color:var(--acc);margin:10px 0;font-weight:bold;"></div>
+      <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;" onclick="closeP()">Close</button>
     </div>
   </div>
 
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
-    const INTERVAL_SECONDS = 300;
+
+    // Hardware based Unique Device Hash (Anti-Data Clear)
+    function getDeviceHash() {
+      const nav = window.navigator;
+      const scr = window.screen;
+      const str = (nav.userAgent || '') + (scr.height || '') + (scr.width || '') + (scr.colorDepth || '') + (nav.hardwareConcurrency || '');
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+      }
+      return 'dev_' + Math.abs(hash);
+    }
+
+    const DEV_KEY = getDeviceHash();
+
+    // Cookie backup so clear data won't easily reset daily limits
+    function setCookie(k, v) {
+      const d = new Date();
+      d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+      document.cookie = k + "=" + v + ";expires=" + d.toUTCString() + ";path=/";
+    }
+
+    function getCookie(k) {
+      const match = document.cookie.match(new RegExp('(^| )' + k + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
-    let timer = null, sec = INTERVAL_SECONDS, isTabActive = true;
+    let timer = null, sec = 30, isRewardClaimed = false, isTabActive = true;
 
     document.addEventListener("visibilitychange", () => {
       isTabActive = !document.hidden;
@@ -149,87 +170,67 @@
       document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
-    function fmtTime(s) {
-      const m = Math.floor(s / 60);
-      const rem = s % 60;
-      return `${m}m ${rem < 10 ? '0' : ''}${rem}s`;
-    }
-
-    function play(videoUrl, title) {
+    function play(ytId, title) {
       document.getElementById('mTitle').innerText = title;
-      document.getElementById('breakBox').style.display = 'none';
-      const player = document.getElementById('vPlayer');
-      player.src = videoUrl;
-      player.muted = true;
+      document.getElementById('vFrame').src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&playsinline=1&controls=1`;
       document.getElementById('vMod').style.display = 'flex';
       
-      player.play().then(() => {
-        player.muted = false;
-      }).catch(() => {
-        // Fallback agar mobile autoplay rok le to user manual play kar sake
-      });
-
-      sec = INTERVAL_SECONDS;
-      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
-      startTimer();
-    }
-
-    function startTimer() {
+      sec = 30;
+      isRewardClaimed = false;
+      document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain reward ke liye...`;
+      
       clearInterval(timer);
       timer = setInterval(() => {
-        const player = document.getElementById('vPlayer');
-        // Timer tabhi aage badhega jab video sach me chal rahi ho
-        if (!isTabActive || player.paused) return;
-        
+        if (!isTabActive) return; // Cheating prevention: pause when user leaves tab
         sec--;
         if (sec > 0) {
-          document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
+          document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain reward ke liye...`;
         } else {
           clearInterval(timer);
-          coins += 10;
-          localStorage.setItem('vw_c', coins);
-          sync();
-          
-          player.pause();
-          document.getElementById('breakBox').style.display = 'flex';
-          document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
+          if (!isRewardClaimed) {
+            isRewardClaimed = true;
+            coins += 10;
+            localStorage.setItem('vw_c', coins);
+            sync();
+            document.getElementById('tTxt').innerText = "🎉 Mubarak! +10 Coins Mil Gaye!";
+          }
         }
       }, 1000);
     }
 
-    function resumePlay() {
-      document.getElementById('breakBox').style.display = 'none';
-      const player = document.getElementById('vPlayer');
-      player.play().catch(e => console.log(e));
-      sec = INTERVAL_SECONDS;
-      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
-      startTimer();
-    }
-
     function closeP() {
       clearInterval(timer);
-      const player = document.getElementById('vPlayer');
-      player.pause();
-      player.removeAttribute('src');
-      player.load();
-      document.getElementById('breakBox').style.display = 'none';
+      document.getElementById('vFrame').src = "";
       document.getElementById('vMod').style.display = 'none';
     }
 
     function chkBonus() {
-      if(localStorage.getItem('vw_b') === new Date().toDateString()) {
+      const today = new Date().toDateString();
+      const localCheck = localStorage.getItem('vw_b_' + DEV_KEY);
+      const cookieCheck = getCookie('vw_b_' + DEV_KEY);
+
+      if (localCheck === today || cookieCheck === today) {
         const b = document.getElementById('dBtn');
         b.innerText = "Claimed ✔";
         b.disabled = true;
-        b.style.opacity = 0.5;
       }
     }
 
     function claimDaily() {
-      if(localStorage.getItem('vw_b') === new Date().toDateString()) return;
+      const today = new Date().toDateString();
+      const localCheck = localStorage.getItem('vw_b_' + DEV_KEY);
+      const cookieCheck = getCookie('vw_b_' + DEV_KEY);
+
+      if (localCheck === today || cookieCheck === today) {
+        alert("⚠️ Is phone/browser se aaj ka bonus pehle hi claim kiya ja chuka hai!");
+        return;
+      }
+
       coins += 25;
       localStorage.setItem('vw_c', coins);
-      localStorage.setItem('vw_b', new Date().toDateString());
+      localStorage.setItem('vw_b_' + DEV_KEY, today);
+      setCookie('vw_b_' + DEV_KEY, today);
+      
       sync();
       chkBonus();
       alert("🎉 +25 Daily Coins Mil Gaye!");
@@ -237,8 +238,10 @@
 
     function doWithdraw() {
       const today = new Date().toDateString();
-      if (localStorage.getItem('vw_last_wd') === today) {
-        alert("⚠️ Aap aaj ka withdrawal laga chuke hain. Agla withdrawal kal lagayein!");
+      const lastWd = localStorage.getItem('vw_last_wd_' + DEV_KEY) || getCookie('vw_last_wd_' + DEV_KEY);
+      
+      if (lastWd === today) {
+        alert("⚠️ Ek device se din me sirf 1 hi withdrawal lag sakta hai. Agla kal lagayein!");
         return;
       }
 
@@ -260,6 +263,7 @@
                    `💳 *UPI:* \`${upi}\`\n` +
                    `🪙 *Coins:* ${amt}\n` +
                    `💰 *Rupees:* ₹${rs}\n` +
+                   `🔒 *DevID:* \`${DEV_KEY}\`\n` +
                    `📅 *Date:* ${dt}`;
 
       const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
@@ -268,7 +272,8 @@
         .then(() => {
           coins -= amt;
           localStorage.setItem('vw_c', coins);
-          localStorage.setItem('vw_last_wd', today);
+          localStorage.setItem('vw_last_wd_' + DEV_KEY, today);
+          setCookie('vw_last_wd_' + DEV_KEY, today);
           sync();
 
           hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
@@ -316,5 +321,5 @@
     }
   </script>
 </body>
-  </html>
+    </html>
   
