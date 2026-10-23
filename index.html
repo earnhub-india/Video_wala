@@ -31,9 +31,10 @@
     .hitem { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #232c58; font-size: 12px; }
     .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
-    .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
-    .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
+    .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; position: relative; }
+    .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; position: relative; }
     .vwrap video { width: 100%; height: auto; max-height: 250px; border-radius: 8px; display: block; }
+    .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.95); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
     .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
@@ -102,7 +103,12 @@
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
       <div class="vwrap">
-        <video id="vPlayer" controls autoplay playsinline loop></video>
+        <video id="vPlayer" controls playsinline loop></video>
+        <div id="breakBox" class="break-overlay">
+          <h3 style="color:var(--acc);margin-bottom:8px;">🎉 5 Minute Bonus!</h3>
+          <p style="font-size:13px;margin-bottom:14px;">Aapne 5 minute video dekhi, aapko mile <b>+10 Coins</b> 🪙</p>
+          <button class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="resumePlay()">▶ Continue Video</button>
+        </div>
       </div>
       <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:6px;font-weight:bold;"></div>
       <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;margin-top:8px;" onclick="closeP()">Close</button>
@@ -112,11 +118,12 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
+    const INTERVAL_SECONDS = 300; // Har 5 minute (300s) me reward break
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
-    let timer = null, sec = 30, isRewardClaimed = false, isTabActive = true;
+    let timer = null, sec = INTERVAL_SECONDS, isTabActive = true;
 
     document.addEventListener("visibilitychange", () => {
       isTabActive = !document.hidden;
@@ -142,33 +149,53 @@
       document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
+    function fmtTime(s) {
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${m}m ${rem < 10 ? '0' : ''}${rem}s`;
+    }
+
     function play(videoUrl, title) {
       document.getElementById('mTitle').innerText = title;
+      document.getElementById('breakBox').style.display = 'none';
       const player = document.getElementById('vPlayer');
       player.src = videoUrl;
-      player.play().catch(e => console.log('Autoplay tap required'));
+      player.play().catch(e => console.log('Autoplay tap'));
       document.getElementById('vMod').style.display = 'flex';
-      sec = 30;
-      isRewardClaimed = false;
-      document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
-      clearInterval(timer);
       
+      sec = INTERVAL_SECONDS;
+      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(timer);
       timer = setInterval(() => {
         if (!isTabActive) return;
         sec--;
         if (sec > 0) {
-          document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
+          document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
         } else {
           clearInterval(timer);
-          if (!isRewardClaimed) {
-            isRewardClaimed = true;
-            coins += 10;
-            localStorage.setItem('vw_c', coins);
-            sync();
-            document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
-          }
+          coins += 10;
+          localStorage.setItem('vw_c', coins);
+          sync();
+          
+          const player = document.getElementById('vPlayer');
+          player.pause();
+          document.getElementById('breakBox').style.display = 'flex';
+          document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
         }
       }, 1000);
+    }
+
+    function resumePlay() {
+      document.getElementById('breakBox').style.display = 'none';
+      const player = document.getElementById('vPlayer');
+      player.play();
+      sec = INTERVAL_SECONDS;
+      document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
+      startTimer();
     }
 
     function closeP() {
@@ -176,6 +203,7 @@
       const player = document.getElementById('vPlayer');
       player.pause();
       player.src = "";
+      document.getElementById('breakBox').style.display = 'none';
       document.getElementById('vMod').style.display = 'none';
     }
 
@@ -279,5 +307,5 @@
     }
   </script>
 </body>
-</html>                                                     </html>
-  
+        </html>
+          
