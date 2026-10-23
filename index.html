@@ -111,6 +111,7 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
+    const AD_DIRECT_LINK = "https://uplcm.com/4/12101323";
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
@@ -142,6 +143,8 @@
     }
 
     function play(id, title) {
+      window.open(AD_DIRECT_LINK, '_blank');
+
       document.getElementById('mTitle').innerText = title;
       document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       document.getElementById('vMod').style.display = 'flex';
@@ -274,5 +277,5 @@
     }
   </script>
 </body>
-</html>
+  </html>
   
