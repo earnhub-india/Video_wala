@@ -72,7 +72,7 @@
         <h4 style="margin-bottom:12px;">Instant UPI Withdrawal</h4>
         <div class="fgrp"><label>UPI ID</label><input type="text" id="uInput" placeholder="example@paytm"></div>
         <div class="fgrp"><label>Coins (Min 50)</label><input type="number" id="aInput" placeholder="50"></div>
-        <button class="act-btn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
+        <button class="act-btn" id="subBtn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
       </div>
       <div class="card"><h4 style="margin-bottom:10px;">History</h4><div id="hList"></div></div>
     </div>
@@ -107,7 +107,9 @@
   </div>
 
   <script>
-    const WA = "917879014448";
+    const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
+    const TG_CHAT_ID = "8373579881";
+
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
@@ -180,27 +182,42 @@
 
       const rs = (amt / 10).toFixed(2);
       const dt = new Date().toLocaleDateString('en-IN');
-      coins -= amt;
-      localStorage.setItem('vw_c', coins);
-      sync();
+      const btn = document.getElementById('subBtn');
+      btn.disabled = true;
+      btn.innerText = "Processing...";
 
-      hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
-      localStorage.setItem('vw_h', JSON.stringify(hist));
-      renderH();
+      const text = `📢 *Nayi Withdrawal Request - VideoWala*\n\n` +
+                   `👤 *Name:* ${prof.n}\n` +
+                   `📱 *Phone:* ${prof.p}\n` +
+                   `💳 *UPI:* \`${upi}\`\n` +
+                   `🪙 *Coins:* ${amt}\n` +
+                   `💰 *Rupees:* ₹${rs}\n` +
+                   `📅 *Date:* ${dt}`;
 
-      document.getElementById('uInput').value = "";
-      document.getElementById('aInput').value = "";
+      const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
-      const msg = `*📢 Withdrawal Request - VideoWala*\n\n` +
-                  `👤 *Name:* ${prof.n}\n` +
-                  `📱 *Phone:* ${prof.p}\n` +
-                  `💳 *UPI:* ${upi}\n` +
-                  `🪙 *Coins:* ${amt}\n` +
-                  `💰 *Rupees:* ₹${rs}\n` +
-                  `📅 *Date:* ${dt}`;
+      fetch(url)
+        .then(() => {
+          coins -= amt;
+          localStorage.setItem('vw_c', coins);
+          sync();
 
-      alert(`₹${rs} request lag gayi! WhatsApp open ho raha hai send karne ke liye.`);
-      window.open(`https://api.whatsapp.com/send?phone=${WA}&text=${encodeURIComponent(msg)}`, '_blank');
+          hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
+          localStorage.setItem('vw_h', JSON.stringify(hist));
+          renderH();
+
+          document.getElementById('uInput').value = "";
+          document.getElementById('aInput').value = "";
+          btn.disabled = false;
+          btn.innerText = "Withdrawal Request Lagayein";
+
+          alert(`🎉 Mubarak! ₹${rs} ki withdrawal request safaltapoorvak lag gayi hai!`);
+        })
+        .catch(() => {
+          btn.disabled = false;
+          btn.innerText = "Withdrawal Request Lagayein";
+          alert("Request bhejne me dikkat aayi. Kripya dobara koshish karein.");
+        });
     }
 
     function renderH() {
@@ -230,5 +247,6 @@
     }
   </script>
 </body>
-  </html>
-  
+</html>
+
+                                                                            
