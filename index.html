@@ -66,7 +66,6 @@
         <div style="font-size:12px;color:var(--dim);">TOTAL BALANCE</div>
         <div style="font-size:32px;font-weight:900;color:var(--acc);margin:4px 0;">🪙 <span id="wc">0</span></div>
         <div style="color:var(--grn);font-weight:bold;font-size:14px;">≈ ₹<span id="wr">0.00</span> INR</div>
-        <button onclick="add50()" style="margin-top:8px;background:none;border:none;color:var(--dim);text-decoration:underline;font-size:11px;cursor:pointer;">+50 Test Coins Jodein</button>
       </div>
       <div class="card">
         <h4 style="margin-bottom:12px;">Instant UPI Withdrawal</h4>
@@ -113,7 +112,11 @@
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
-    let timer, sec = 30;
+    let timer = null, sec = 30, isRewardClaimed = false, isTabActive = true;
+
+    document.addEventListener("visibilitychange", () => {
+      isTabActive = !document.hidden;
+    });
 
     function sync() {
       document.getElementById('cb').innerText = coins;
@@ -140,37 +143,51 @@
       document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       document.getElementById('vMod').style.display = 'flex';
       sec = 30;
+      isRewardClaimed = false;
       document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
       clearInterval(timer);
+      
       timer = setInterval(() => {
+        if (!isTabActive) return; // Anti-cheat: tab inactive hone par timer pause
         sec--;
-        if(sec > 0) document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
-        else {
+        if (sec > 0) {
+          document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
+        } else {
           clearInterval(timer);
-          coins += 10;
-          localStorage.setItem('vw_c', coins);
-          sync();
-          document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
+          if (!isRewardClaimed) {
+            isRewardClaimed = true;
+            coins += 10;
+            localStorage.setItem('vw_c', coins);
+            sync();
+            document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
+          }
         }
       }, 1000);
     }
-    function closeP() { clearInterval(timer); document.getElementById('vFrame').src = ""; document.getElementById('vMod').style.display = 'none'; }
+
+    function closeP() {
+      clearInterval(timer);
+      document.getElementById('vFrame').src = "";
+      document.getElementById('vMod').style.display = 'none';
+    }
 
     function chkBonus() {
       if(localStorage.getItem('vw_b') === new Date().toDateString()) {
-        const b = document.getElementById('dBtn'); b.innerText = "Claimed ✔"; b.disabled = true; b.style.opacity = 0.5;
+        const b = document.getElementById('dBtn');
+        b.innerText = "Claimed ✔";
+        b.disabled = true;
+        b.style.opacity = 0.5;
       }
     }
+
     function claimDaily() {
+      if(localStorage.getItem('vw_b') === new Date().toDateString()) return;
       coins += 25;
       localStorage.setItem('vw_c', coins);
       localStorage.setItem('vw_b', new Date().toDateString());
-      sync(); chkBonus();
+      sync();
+      chkBonus();
       alert("🎉 +25 Daily Coins Mil Gaye!");
-    }
-
-    function add50() {
-      coins += 50; localStorage.setItem('vw_c', coins); sync(); alert("+50 Test Coins Jud Gaye!");
     }
 
     function doWithdraw() {
@@ -249,4 +266,4 @@
 </body>
 </html>
 
-                                                                            
+  
