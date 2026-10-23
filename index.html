@@ -34,6 +34,7 @@
     .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
     .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
     .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
 <body>
@@ -72,6 +73,7 @@
         <div class="fgrp"><label>UPI ID</label><input type="text" id="uInput" placeholder="example@paytm"></div>
         <div class="fgrp"><label>Coins (Min 50)</label><input type="number" id="aInput" placeholder="50"></div>
         <button class="act-btn" id="subBtn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
+        <p class="info-tag">ℹ Din me sirf 1 baar withdrawal request laga sakte hain.</p>
       </div>
       <div class="card"><h4 style="margin-bottom:10px;">History</h4><div id="hList"></div></div>
     </div>
@@ -148,7 +150,7 @@
       clearInterval(timer);
       
       timer = setInterval(() => {
-        if (!isTabActive) return; // Anti-cheat: tab inactive hone par timer pause
+        if (!isTabActive) return;
         sec--;
         if (sec > 0) {
           document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
@@ -191,13 +193,19 @@
     }
 
     function doWithdraw() {
+      const today = new Date().toDateString();
+      if (localStorage.getItem('vw_last_wd') === today) {
+        alert("⚠️ Aap aaj ka withdrawal laga chuke hain. Agla withdrawal kal lagayein!");
+        return;
+      }
+
       const upi = document.getElementById('uInput').value.trim();
       const amt = parseInt(document.getElementById('aInput').value);
       if(!upi.includes('@')) { alert("Sahi UPI ID dalein!"); return; }
       if(isNaN(amt) || amt < 50) { alert("Min withdrawal 50 Coins (₹5) hai!"); return; }
       if(amt > coins) { alert("Paryapt coins nahi hain!"); return; }
 
-      const rs = (amt / 10).toFixed(2);
+            const rs = (amt / 10).toFixed(2);
       const dt = new Date().toLocaleDateString('en-IN');
       const btn = document.getElementById('subBtn');
       btn.disabled = true;
@@ -217,6 +225,7 @@
         .then(() => {
           coins -= amt;
           localStorage.setItem('vw_c', coins);
+          localStorage.setItem('vw_last_wd', today);
           sync();
 
           hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
