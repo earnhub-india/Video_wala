@@ -32,8 +32,8 @@
     .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
     .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
-    .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
-    .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
+    .vwrap video { width: 100%; height: auto; max-height: 250px; border-radius: 8px; display: block; }
     .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
@@ -55,10 +55,10 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">🐻</div><h4>Masha & Bear</h4><button class="wbtn" onclick="play('KYniUCGPGLs','Masha & Bear')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🐰</div><h4>Kids Rhymes</h4><button class="wbtn" onclick="play('e_04ZrNroTo','Kids Rhymes')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🌍</div><h4>Nature World</h4><button class="wbtn" onclick="play('EngW7tLk6R8','Nature World')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🎨</div><h4>Fun Cartoon</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Fun Cartoon')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🐰</div><h4>Bunny Cartoon</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4','Bunny Cartoon')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🚗</div><h4>Speed Race</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4','Speed Race')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🌟</div><h4>Dream Story</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4','Dream Story')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🦜</div><h4>Nature Fun</h4><button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4','Nature Fun')">Dekhein</button></div>
       </div>
     </div>
 
@@ -102,7 +102,7 @@
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
       <div class="vwrap">
-        <iframe id="vFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <video id="vPlayer" controls autoplay playsinline loop></video>
       </div>
       <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:6px;font-weight:bold;"></div>
       <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;margin-top:8px;" onclick="closeP()">Close</button>
@@ -142,9 +142,11 @@
       document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
-    function play(id, title) {
+    function play(videoUrl, title) {
       document.getElementById('mTitle').innerText = title;
-      document.getElementById('vFrame').src = "https://www.youtube.com/embed/" + id + "?autoplay=1&mute=1&playsinline=1";
+      const player = document.getElementById('vPlayer');
+      player.src = videoUrl;
+      player.play().catch(e => console.log('Autoplay tap required'));
       document.getElementById('vMod').style.display = 'flex';
       sec = 30;
       isRewardClaimed = false;
@@ -171,7 +173,9 @@
 
     function closeP() {
       clearInterval(timer);
-      document.getElementById('vFrame').src = "";
+      const player = document.getElementById('vPlayer');
+      player.pause();
+      player.src = "";
       document.getElementById('vMod').style.display = 'none';
     }
 
@@ -275,4 +279,5 @@
     }
   </script>
 </body>
-</html>
+</html>                                                     </html>
+  
