@@ -56,7 +56,6 @@
     }
     .tab-btn.active { background: var(--accent); color: #000; }
 
-    /* Common Card */
     .card {
       background: var(--card);
       border: 1px solid #232c58;
@@ -228,14 +227,13 @@
   </header>
 
   <main>
-    <!-- Navigation Tabs -->
     <div class="tabs">
       <button id="tabVideosBtn" class="tab-btn active" onclick="switchTab('videos')">🎬 Videos</button>
       <button id="tabWalletBtn" class="tab-btn" onclick="switchTab('wallet')">👛 Wallet</button>
       <button id="tabProfileBtn" class="tab-btn" onclick="switchTab('profile')">👤 Profile</button>
     </div>
 
-    <!-- 1. VIDEOS SECTION -->
+    <!-- 1. VIDEOS -->
     <div id="videoSection">
       <div class="bonus-card">
         <div>
@@ -287,7 +285,7 @@
       </div>
     </div>
 
-    <!-- 2. WALLET SECTION -->
+    <!-- 2. WALLET -->
     <div id="walletSection">
       <div class="wallet-card">
         <h3>Aapka Kul Balance</h3>
@@ -305,7 +303,7 @@
           <label>Kitne Coins Withdraw karne hain? (Min: 50 Coins)</label>
           <input type="number" id="withdrawAmount" placeholder="e.g. 50">
         </div>
-        <button class="action-btn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
+        <button class="action-btn" id="withdrawBtn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
       </div>
 
       <div class="card">
@@ -316,7 +314,7 @@
       </div>
     </div>
 
-    <!-- 3. PROFILE SECTION -->
+    <!-- 3. PROFILE -->
     <div id="profileSection">
       <div class="card" style="text-align: center;">
         <div style="font-size: 50px; margin-bottom: 8px;">👤</div>
@@ -444,97 +442,5 @@
       if (lastClaim === today) {
         btn.innerText = "Claimed ✔";
         btn.style.background = "#57606f";
-        btn.disabled = true;
-      }
-    }
-
-    function claimDailyBonus() {
-      const today = new Date().toDateString();
-      const lastClaim = localStorage.getItem('last_bonus_date');
-      if (lastClaim === today) {
-        alert('Aapne aaj ka bonus claim kar liya hai. Kal dobara aayen!');
-        return;
-      }
-      userCoins += 25;
-      localStorage.setItem('user_coins', userCoins);
-      localStorage.setItem('last_bonus_date', today);
-      updateBalances();
-      checkDailyBonusStatus();
-      alert('🎉 Badhai ho! Daily check-in bonus ke 25 Coins mil gaye!');
-    }
-
-    // Wallet Withdraw
-    function handleWithdraw() {
-      const upi = document.getElementById('upiInput').value.trim();
-      const amount = parseInt(document.getElementById('withdrawAmount').value);
-
-      if (!upi || !upi.includes('@')) {
-        alert('Kripya ek valid UPI ID daalein (e.g. name@okhdfcbank)');
-        return;
-      }
-      if (isNaN(amount) || amount < 50) {
-        alert('Kam se kam 50 Coins ka withdrawal request laga sakte hain (₹5)!');
-        return;
-      }
-      if (amount > userCoins) {
-        alert('Aapke paas paryapt coins nahi hain!');
-        return;
-      }
-
-      userCoins -= amount;
-      localStorage.setItem('user_coins', userCoins);
-      updateBalances();
-
-      const newRecord = {
-        upi: upi,
-        coins: amount,
-        rupees: (amount / 10).toFixed(2),
-        date: new Date().toLocaleDateString('en-IN'),
-        status: 'Pending'
-      };
-
-      withdrawals.unshift(newRecord);
-      localStorage.setItem('user_withdrawals', JSON.stringify(withdrawals));
-      renderHistory();
-
-      document.getElementById('upiInput').value = '';
-      document.getElementById('withdrawAmount').value = '';
-      alert(`Badhai ho! ₹${newRecord.rupees} ki withdrawal request lag gayi hai.`);
-    }
-
-    function renderHistory() {
-      const listEl = document.getElementById('historyList');
-      if (withdrawals.length === 0) {
-        listEl.innerHTML = `<div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>`;
-        return;
-      }
-      listEl.innerHTML = withdrawals.map(item => `
-        <div class="history-item">
-          <div>
-            <strong>₹${item.rupees}</strong> (${item.coins} Coins)<br>
-            <span style="font-size: 11px; color: var(--text-dim);">${item.upi} • ${item.date}</span>
-          </div>
-          <span class="status-badge">${item.status}</span>
-        </div>
-      `).join('');
-    }
-
-    // Profile & Refer
-    function saveProfile() {
-      const name = document.getElementById('nameInput').value.trim();
-      const phone = document.getElementById('phoneInput').value.trim();
-      if (!name) { alert('Kripya naam enter karein'); return; }
-      userProfile = { name, phone };
-      localStorage.setItem('user_profile', JSON.stringify(userProfile));
-      initProfile();
-      alert('Profile details successfully save ho gayi hain!');
-    }
-
-    function shareReferral() {
-      const text = encodeURIComponent(`VideoWala App par videos dekho aur rozana paise kamao! Mera referral code use karein: VW7890. Link: ${window.location.href}`);
-      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-    }
-  </script>
-</body>
-  </html>
-  
+        btn.disabled =
+          
