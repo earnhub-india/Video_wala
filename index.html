@@ -24,7 +24,7 @@
     .vcard { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #232c58; padding: 10px; text-align: center; }
     .vthumb { font-size: 32px; padding: 12px 0; background: #0b1027; border-radius: 8px; margin-bottom: 8px; }
     .vbadge { font-size: 10px; background: rgba(255,183,3,0.15); color: var(--acc); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: bold; }
-    .wbtn { width: 100%; background: var(--pri); color: #fff; border: none; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 6px; }
+    .wbtn { width: 100%; background: var(--pri); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
     #walletSec, #profileSec { display: none; }
     .wcard { background: #1e295d; border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; }
     .fgrp { margin-bottom: 12px; text-align: left; }
@@ -33,12 +33,12 @@
     .act-btn { width: 100%; background: var(--grn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; }
     .hitem { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #232c58; font-size: 12px; }
     .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
     .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; position: relative; }
     .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; position: relative; }
     .vwrap video { width: 100%; height: auto; max-height: 240px; border-radius: 8px; display: block; }
     .break-overlay { display: none; position: absolute; inset: 0; background: rgba(11, 16, 39, 0.96); z-index: 10; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; padding: 16px; }
-    .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
+    .ad-link-btn { display: inline-block; background: var(--acc); color: #000; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; font-size: 13px; margin: 8px 0; }
   </style>
 </head>
 <body>
@@ -64,7 +64,7 @@
           <div class="vthumb">⚡</div>
           <span class="vbadge">30s • 10 Coins</span>
           <h4>Quick Cartoon</h4>
-          <button class="wbtn" onclick="startVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 'Quick Cartoon', 30, 10, false)">Dekhein</button>
+          <button class="wbtn" onclick="startVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 'Quick Cartoon', 30, 10, false, 1)">Dekhein</button>
         </div>
 
         <!-- 2nd: 1 Minute -->
@@ -72,10 +72,10 @@
           <div class="vthumb">⏱️</div>
           <span class="vbadge">1 Min • 20 Coins</span>
           <h4>Mini Story</h4>
-          <button class="wbtn" onclick="startVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', 'Mini Story', 60, 20, false)">Dekhein</button>
+          <button class="wbtn" onclick="startVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', 'Mini Story', 60, 20, false, 1)">Dekhein</button>
         </div>
 
-        <!-- 3rd: 15 Minutes (Har 3 min me 10 coins, total 50 coins) -->
+        <!-- 3rd: 15 Minutes -->
         <div class="vcard">
           <div class="vthumb">🍿</div>
           <span class="vbadge">15 Min • 50 Coins</span>
@@ -83,7 +83,7 @@
           <button class="wbtn" onclick="startVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Medium Show', 180, 10, true, 5)">Dekhein</button>
         </div>
 
-        <!-- 4th: 1 Ghanta (Har 5-6 min me reward repeat) -->
+        <!-- 4th: 1 Hour Mega -->
         <div class="vcard">
           <div class="vthumb">👑</div>
           <span class="vbadge">1 Hour Mega</span>
@@ -104,7 +104,6 @@
         <div class="fgrp"><label>UPI ID</label><input type="text" id="uInput" placeholder="example@paytm"></div>
         <div class="fgrp"><label>Coins (Min 50)</label><input type="number" id="aInput" placeholder="50"></div>
         <button class="act-btn" id="subBtn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
-        <p class="info-tag">ℹ Din me sirf 1 baar withdrawal request laga sakte hain.</p>
       </div>
       <div class="card"><h4 style="margin-bottom:10px;">History</h4><div id="hList"></div></div>
     </div>
@@ -121,11 +120,6 @@
         <div class="fgrp"><label>Phone</label><input type="tel" id="pInp"></div>
         <button class="act-btn" style="background:var(--pri);color:#fff;" onclick="savePro()">Save Profile</button>
       </div>
-      <div class="card" style="text-align:center;">
-        <h4>📢 Refer & Earn</h4>
-        <p style="font-size:12px;color:var(--dim);margin:6px 0 12px;">Share karein aur 50 coins payein</p>
-        <button class="act-btn" style="background:#25D366;color:#fff;" onclick="shareRef()">WhatsApp Share</button>
-      </div>
     </div>
   </main>
 
@@ -136,8 +130,10 @@
         <video id="vPlayer" controls playsinline loop></video>
         <div id="breakBox" class="break-overlay">
           <h3 style="color:var(--acc);margin-bottom:6px;" id="bHead">🎉 Break Bonus!</h3>
-          <p style="font-size:13px;margin-bottom:14px;" id="bMsg">Aapko Coins mil gaye hain!</p>
-          <button class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="resumePlay()">▶ Continue Dekhein</button>
+          <p style="font-size:13px;margin-bottom:10px;" id="bMsg">Reward claim karne ke liye Sponsor link dekhein!</p>
+          <a id="sponsorBtn" href="https://uplcm.com/4/12101406" target="_blank" class="ad-link-btn" onclick="onAdClicked()">🎁 Claim & Open Sponsor</a>
+          <br>
+          <button id="contBtn" class="act-btn" style="width:auto;padding:8px 20px;font-size:13px;display:none;margin-top:6px;" onclick="resumePlay()">▶ Continue Video</button>
         </div>
       </div>
       <div id="tTxt" style="font-size:14px;color:var(--acc);margin:8px 0;font-weight:bold;"></div>
@@ -150,43 +146,11 @@
     const TG_CHAT_ID = "8373579881";
     const AD_DIRECT_LINK = "https://uplcm.com/4/12101406";
 
-    function getDeviceHash() {
-      const nav = window.navigator;
-      const scr = window.screen;
-      const str = (nav.userAgent || '') + (scr.height || '') + (scr.width || '') + (scr.colorDepth || '') + (nav.hardwareConcurrency || '');
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
-      }
-      return 'dev_' + Math.abs(hash);
-    }
-    const DEV_KEY = getDeviceHash();
-
-    function setCookie(k, v) {
-      const d = new Date();
-      d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
-      document.cookie = k + "=" + v + ";expires=" + d.toUTCString() + ";path=/";
-    }
-    function getCookie(k) {
-      const match = document.cookie.match(new RegExp('(^| )' + k + '=([^;]+)'));
-      return match ? match[2] : null;
-    }
-
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
     let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
 
     let timer = null, sec = 0, isLoop = false, loopCount = 0, maxLoops = 1, currentReward = 10, currentInterval = 30;
-    let isTabActive = true;
-
-    document.addEventListener("visibilitychange", () => {
-      isTabActive = !document.hidden;
-    });
-
-    function triggerAd() {
-      try { window.open(AD_DIRECT_LINK, '_blank'); } catch (e) { console.log('Ad blocked'); }
-    }
 
     function sync() {
       document.getElementById('cb').innerText = coins;
@@ -214,14 +178,16 @@
       return `${m}m ${rem < 10 ? '0' : ''}${rem}s`;
     }
 
-    function startVideo(url, title, intervalSec, rewardCoins, loopMode, maxRounds = 1) {
-      triggerAd(); // Video shuru hote hi ad trigger hoga
+    function startVideo(url, title, intervalSec, rewardCoins, loopMode, maxRounds) {
+      // Direct window open nahi balki safe link button ke through ad trigger hoga
       document.getElementById('mTitle').innerText = title;
       document.getElementById('breakBox').style.display = 'none';
+      document.getElementById('sponsorBtn').style.display = 'inline-block';
+      document.getElementById('contBtn').style.display = 'none';
 
       const player = document.getElementById('vPlayer');
       player.src = url;
-      player.play().catch(e => console.log('Autoplay issue'));
+      player.play().catch(e => console.log('Tap to play required'));
       document.getElementById('vMod').style.display = 'flex';
 
       currentInterval = intervalSec;
@@ -238,33 +204,39 @@
     function startCountdown() {
       clearInterval(timer);
       timer = setInterval(() => {
-        const player = document.getElementById('vPlayer');
-        if (!isTabActive || player.paused) return;
-
         sec--;
         if (sec > 0) {
           document.getElementById('tTxt').innerText = `⏳ Agla Reward: ${fmtTime(sec)}`;
         } else {
           clearInterval(timer);
-          coins += currentReward;
-          localStorage.setItem('vw_c', coins);
-          sync();
-          loopCount++;
-
+          const player = document.getElementById('vPlayer');
           player.pause();
-          triggerAd(); // Break hote hi ad fir se trigger hoga
-
-          if (isLoop && loopCount < maxLoops) {
-            document.getElementById('bHead').innerText = `🎉 Break Bonus! (+${currentReward} 🪙)`;
-            document.getElementById('bMsg').innerText = `Aapne part complete kiya! Continue dabakar aage dekhein.`;
-            document.getElementById('breakBox').style.display = 'flex';
-          } else {
-            document.getElementById('bHead').innerText = `🏆 Video Complete!`;
-            document.getElementById('bMsg').innerText = `Total Coins jud chuke hain aapke wallet me!`;
-            document.getElementById('breakBox').style.display = 'flex';
-          }
+          
+          document.getElementById('bHead').innerText = `🎉 +${currentReward} Coins Ready!`;
+          document.getElementById('bMsg').innerText = "Coins wallet me add karne ke liye Sponsor open karein!";
+          document.getElementById('sponsorBtn').style.display = 'inline-block';
+          document.getElementById('contBtn').style.display = 'none';
+          document.getElementById('breakBox').style.display = 'flex';
         }
       }, 1000);
+    }
+
+    function onAdClicked() {
+      // User ne sponsor par click kiya, ab coin credit honge
+      coins += currentReward;
+      localStorage.setItem('vw_c', coins);
+      sync();
+      loopCount++;
+
+      document.getElementById('bHead').innerText = `✅ +${currentReward} Coins Added!`;
+      document.getElementById('bMsg').innerText = "Aapka bonus jama ho gaya hai.";
+      document.getElementById('sponsorBtn').style.display = 'none';
+      
+      if (isLoop && loopCount < maxLoops) {
+        document.getElementById('contBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('tTxt').innerText = "🏆 Session Complete!";
+      }
     }
 
     function resumePlay() {
@@ -288,9 +260,7 @@
 
     function chkBonus() {
       const today = new Date().toDateString();
-      const localCheck = localStorage.getItem('vw_b_' + DEV_KEY);
-      const cookieCheck = getCookie('vw_b_' + DEV_KEY);
-      if (localCheck === today || cookieCheck === today) {
+      if (localStorage.getItem('vw_b') === today) {
         const b = document.getElementById('dBtn');
         b.innerText = "Claimed ✔";
         b.disabled = true;
@@ -299,16 +269,13 @@
 
     function claimDaily() {
       const today = new Date().toDateString();
-      const localCheck = localStorage.getItem('vw_b_' + DEV_KEY);
-      const cookieCheck = getCookie('vw_b_' + DEV_KEY);
-      if (localCheck === today || cookieCheck === today) {
-        alert("⚠️ Is phone se aaj ka bonus liya ja chuka hai!");
+      if (localStorage.getItem('vw_b') === today) {
+        alert("⚠️ Aaj ka bonus claim ho chuka hai!");
         return;
       }
       coins += 25;
       localStorage.setItem('vw_c', coins);
-      localStorage.setItem('vw_b_' + DEV_KEY, today);
-      setCookie('vw_b_' + DEV_KEY, today);
+      localStorage.setItem('vw_b', today);
       sync();
       chkBonus();
       alert("🎉 +25 Daily Coins Mil Gaye!");
@@ -316,9 +283,8 @@
 
     function doWithdraw() {
       const today = new Date().toDateString();
-      const lastWd = localStorage.getItem('vw_last_wd_' + DEV_KEY) || getCookie('vw_last_wd_' + DEV_KEY);
-      if (lastWd === today) {
-        alert("⚠️ Din me sirf 1 baar withdrawal lag sakta hai!");
+      if (localStorage.getItem('vw_last_wd') === today) {
+        alert("⚠️ Din me sirf 1 baar withdrawal request laga sakte hain!");
         return;
       }
       const upi = document.getElementById('uInput').value.trim();
@@ -339,7 +305,6 @@
                    `💳 *UPI:* \`${upi}\`\n` +
                    `🪙 *Coins:* ${amt}\n` +
                    `💰 *Rupees:* ₹${rs}\n` +
-                   `🔒 *DevID:* \`${DEV_KEY}\`\n` +
                    `📅 *Date:* ${dt}`;
 
       const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
@@ -348,8 +313,7 @@
         .then(() => {
           coins -= amt;
           localStorage.setItem('vw_c', coins);
-          localStorage.setItem('vw_last_wd_' + DEV_KEY, today);
-          setCookie('vw_last_wd_' + DEV_KEY, today);
+          localStorage.setItem('vw_last_wd', today);
           sync();
 
           hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
@@ -360,7 +324,7 @@
           document.getElementById('aInput').value = "";
           btn.disabled = false;
           btn.innerText = "Withdrawal Request Lagayein";
-          alert(`🎉 Mubarak! ₹${rs} ki withdrawal request lag gayi hai!`);
+          alert(`🎉 ₹${rs} ki withdrawal request safaltapoorvak lag gayi hai!`);
         })
         .catch(() => {
           btn.disabled = false;
@@ -389,13 +353,7 @@
       sync();
       alert("Profile Saved!");
     }
-
-    function shareRef() {
-      const t = encodeURIComponent(`Daily Rewards Hub par videos dekhein aur coins kamayein! Link: ${window.location.href}`);
-      window.open(`https://api.whatsapp.com/send?text=${t}`, '_blank');
-    }
   </script>
 </body>
-</html>
-
-    
+  </html>
+  
