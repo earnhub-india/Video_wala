@@ -5,545 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VideoWala - Watch & Earn</title>
   <style>
-    :root {
-      --bg: #0b1027;
-      --card: #171e3d;
-      --primary: #6c5ce7;
-      --accent: #ffb703;
-      --text: #ffffff;
-      --text-dim: #a0aec0;
-      --green: #00b894;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
-
-    header {
-      background: #111738;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid #232c58;
-    }
-    .logo { font-size: 20px; font-weight: 900; color: #fff; cursor: pointer; }
-    .logo span { color: var(--accent); }
-    .coin-badge {
-      background: #232c58;
-      border: 1px solid var(--accent);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    main { max-width: 600px; margin: auto; padding: 16px; }
-
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: var(--card);
-      color: var(--text-dim);
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .tab-btn.active { background: var(--accent); color: #000; }
-
-    .card {
-      background: var(--card);
-      border: 1px solid #232c58;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .banner {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .banner h2 { font-size: 20px; margin-bottom: 8px; }
-    .banner p { font-size: 13px; opacity: 0.9; line-height: 1.4; }
-
-    .bonus-card {
-      background: linear-gradient(135deg, #2c3e50, #3498db);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .bonus-card div h4 { font-size: 15px; margin-bottom: 2px; }
-    .bonus-card div p { font-size: 12px; opacity: 0.9; }
-    .bonus-btn {
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .section-title { font-size: 18px; margin-bottom: 14px; }
-    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .video-card {
-      background: var(--card);
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #232c58;
-      display: flex;
-      flex-direction: column;
-    }
-    .thumbnail-box {
-      height: 120px;
-      background: linear-gradient(45deg, #2b3566, #1f274a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
-    .video-info { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .video-info h4 { font-size: 14px; margin-bottom: 4px; }
-    .video-info p { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
-    .watch-btn {
-      width: 100%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 9px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    #walletSection, #profileSection { display: none; }
-    .wallet-card {
-      background: linear-gradient(135deg, #1e295d, #141c42);
-      border: 1px solid #3b4885;
-      border-radius: 18px;
-      padding: 24px;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .wallet-card h3 { font-size: 14px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
-    .balance-huge { font-size: 38px; font-weight: 900; color: var(--accent); margin-bottom: 6px; }
-    .rupee-value { font-size: 15px; color: var(--green); font-weight: 700; }
-
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-dim); }
-    .form-group input {
-      width: 100%;
-      padding: 12px 14px;
-      background: #0b1027;
-      border: 1px solid #313d74;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-    }
-    .action-btn {
-      width: 100%;
-      background: var(--green);
-      color: #000;
-      border: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .history-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #232c58;
-      font-size: 13px;
-    }
-    .history-item:last-child { border-bottom: none; }
-    .status-badge {
-      background: #fdcb6e;
-      color: #000;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 200;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-    }
-    .modal-content {
-      background: var(--card);
-      width: 100%;
-      max-width: 500px;
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-    }
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-    .timer-badge { font-size: 14px; color: var(--accent); font-weight: bold; margin: 10px 0; }
-    .close-btn { background: #ff4757; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    :root { --bg: #0b1027; --card: #171e3d; --pri: #6c5ce7; --acc: #ffb703; --grn: #00b894; --dim: #a0aec0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background: var(--bg); color: #fff; padding-bottom: 60px; }
+    header { background: #111738; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #232c58; }
+    .logo { font-size: 18px; font-weight: 900; }
+    .coin-badge { background: #232c58; border: 1px solid var(--acc); padding: 5px 12px; border-radius: 20px; font-weight: 700; color: var(--acc); font-size: 13px; }
+    main { max-width: 500px; margin: auto; padding: 14px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tbtn { flex: 1; padding: 10px; border: none; background: var(--card); color: var(--dim); border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; }
+    .tbtn.active { background: var(--acc); color: #000; }
+    .card { background: var(--card); border: 1px solid #232c58; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+    .bonus-card { background: linear-gradient(135deg, #1e3c72, #2a5298); border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .bbtn { background: var(--acc); color: #000; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .vcard { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #232c58; padding: 10px; text-align: center; }
+    .vthumb { font-size: 32px; padding: 16px 0; background: #0b1027; border-radius: 8px; margin-bottom: 8px; }
+    .wbtn { width: 100%; background: var(--pri); color: #fff; border: none; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 8px; }
+    #walletSec, #profileSec { display: none; }
+    .wcard { background: #1e295d; border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; }
+    .fgrp { margin-bottom: 12px; text-align: left; }
+    .fgrp label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--dim); }
+    .fgrp input { width: 100%; padding: 10px; background: #0b1027; border: 1px solid #313d74; border-radius: 8px; color: #fff; }
+    .act-btn { width: 100%; background: var(--grn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; }
+    .hitem { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #232c58; font-size: 12px; }
+    .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
+    .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
+    .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
+    .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo" onclick="switchTab('videos')">▶ Video<span>Wala</span></div>
-    <div class="coin-badge">🪙 <span id="coinBalance">0</span> Coins</div>
+    <div class="logo">▶ Video<span style="color:var(--acc)">Wala</span></div>
+    <div class="coin-badge">🪙 <span id="cb">0</span> Coins</div>
   </header>
-
   <main>
     <div class="tabs">
-      <button id="tabVideosBtn" class="tab-btn active" onclick="switchTab('videos')">🎬 Videos</button>
-      <button id="tabWalletBtn" class="tab-btn" onclick="switchTab('wallet')">👛 Wallet</button>
-      <button id="tabProfileBtn" class="tab-btn" onclick="switchTab('profile')">👤 Profile</button>
+      <button id="bVid" class="tbtn active" onclick="tab('v')">🎬 Videos</button>
+      <button id="bWal" class="tbtn" onclick="tab('w')">👛 Wallet</button>
+      <button id="bPro" class="tbtn" onclick="tab('p')">👤 Profile</button>
     </div>
 
-    <!-- 1. VIDEOS -->
-    <div id="videoSection">
+    <div id="videoSec">
       <div class="bonus-card">
-        <div>
-          <h4>🎁 Daily Check-in</h4>
-          <p>Claim karein rozana +25 Coins free!</p>
-        </div>
-        <button class="bonus-btn" id="dailyBtn" onclick="claimDailyBonus()">Claim 25 🪙</button>
+        <div><h4 style="font-size:14px;">🎁 Daily Bonus</h4><p style="font-size:11px;opacity:0.8;">Claim +25 Coins rozana</p></div>
+        <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
-
-      <div class="banner">
-        <h2>Video dekho aur Coins kamao!</h2>
-        <p>Har video ko 30 seconds tak dekhiye aur instantly apne wallet me 10 coins paiye.</p>
-      </div>
-
-      <h3 class="section-title">Trending Videos</h3>
-      <div class="video-grid">
-        <div class="video-card">
-          <div class="thumbnail-box">😂</div>
-          <div class="video-info">
-            <h4>Comedy Shorts</h4>
-            <p>Reward: 10 Coins</p>
-            <button class="watch-btn" onclick="playVideo('M7lc1UVf-VE', 'Comedy Shorts')">Video Dekhein</button>
-          </div>
-        </div>
-        <div class="video-card">
-          <div class="thumbnail-box">🎵</div>
-          <div class="video-info">
-            <h4>Music & Dance</h4>
-            <p>Reward: 10 Coins</p>
-            <button class="watch-btn" onclick="playVideo('kJQP7kiw5Fk', 'Music & Dance')">Video Dekhein</button>
-          </div>
-        </div>
-        <div class="video-card">
-          <div class="thumbnail-box">📱</div>
-          <div class="video-info">
-            <h4>Tech & Gadgets</h4>
-            <p>Reward: 10 Coins</p>
-            <button class="watch-btn" onclick="playVideo('dQw4w9WgXcQ', 'Tech & Gadgets')">Video Dekhein</button>
-          </div>
-        </div>
-        <div class="video-card">
-          <div class="thumbnail-box">⭐</div>
-          <div class="video-info">
-            <h4>Viral Facts</h4>
-            <p>Reward: 10 Coins</p>
-            <button class="watch-btn" onclick="playVideo('L_LUpnjgPso', 'Viral Facts')">Video Dekhein</button>
-          </div>
-        </div>
+      <div class="grid">
+        <div class="vcard"><div class="vthumb">😂</div><h4>Comedy</h4><button class="wbtn" onclick="play('M7lc1UVf-VE','Comedy')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🎵</div><h4>Music</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Music')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">📱</div><h4>Tech</h4><button class="wbtn" onclick="play('dQw4w9WgXcQ','Tech')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">⭐</div><h4>Facts</h4><button class="wbtn" onclick="play('L_LUpnjgPso','Facts')">Dekhein</button></div>
       </div>
     </div>
 
-    <!-- 2. WALLET -->
-    <div id="walletSection">
-      <div class="wallet-card">
-        <h3>Aapka Kul Balance</h3>
-        <div class="balance-huge">🪙 <span id="walletCoins">0</span></div>
-        <div class="rupee-value">≈ ₹<span id="walletRupees">0.00</span> INR (10 Coins = ₹1)</div>
+    <div id="walletSec">
+      <div class="wcard">
+        <div style="font-size:12px;color:var(--dim);">TOTAL BALANCE</div>
+        <div style="font-size:32px;font-weight:900;color:var(--acc);margin:4px 0;">🪙 <span id="wc">0</span></div>
+        <div style="color:var(--grn);font-weight:bold;font-size:14px;">≈ ₹<span id="wr">0.00</span> INR</div>
+        <button onclick="add50()" style="margin-top:8px;background:none;border:none;color:var(--dim);text-decoration:underline;font-size:11px;cursor:pointer;">+50 Test Coins Jodein</button>
       </div>
-
       <div class="card">
-        <h3 style="margin-bottom: 14px; font-size: 16px;">Instant UPI Withdrawal</h3>
-        <div class="form-group">
-          <label>UPI ID (GooglePay / PhonePe / Paytm)</label>
-          <input type="text" id="upiInput" placeholder="example@oksbi / 9876543210@paytm">
-        </div>
-        <div class="form-group">
-          <label>Kitne Coins Withdraw karne hain? (Min: 50 Coins)</label>
-          <input type="number" id="withdrawAmount" placeholder="e.g. 50">
-        </div>
-        <button class="action-btn" id="withdrawBtn" onclick="handleWithdraw()">Withdrawal Request Lagayein</button>
+        <h4 style="margin-bottom:12px;">Instant UPI Withdrawal</h4>
+        <div class="fgrp"><label>UPI ID</label><input type="text" id="uInput" placeholder="example@paytm"></div>
+        <div class="fgrp"><label>Coins (Min 50)</label><input type="number" id="aInput" placeholder="50"></div>
+        <button class="act-btn" onclick="doWithdraw()">Withdrawal Request Lagayein</button>
       </div>
-
-      <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">Withdrawal History</h3>
-        <div id="historyList">
-          <div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>
-        </div>
-      </div>
+      <div class="card"><h4 style="margin-bottom:10px;">History</h4><div id="hList"></div></div>
     </div>
 
-    <!-- 3. PROFILE -->
-    <div id="profileSection">
-      <div class="card" style="text-align: center;">
-        <div style="font-size: 50px; margin-bottom: 8px;">👤</div>
-        <h2 id="displayUserName" style="font-size: 20px;">Guest User</h2>
-        <p id="displayUserPhone" style="font-size: 13px; color: var(--text-dim); margin-top: 4px;">Account not linked</p>
+    <div id="profileSec">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:40px;">👤</div>
+        <h3 id="uName">Guest User</h3>
+        <p id="uPhone" style="font-size:12px;color:var(--dim);">No Phone</p>
       </div>
-
       <div class="card">
-        <h3 style="margin-bottom: 14px; font-size: 16px;">User Profile Details</h3>
-        <div class="form-group">
-          <label>Aapka Naam</label>
-          <input type="text" id="nameInput" placeholder="Apna naam likhein">
-        </div>
-        <div class="form-group">
-          <label>Mobile Number</label>
-          <input type="tel" id="phoneInput" placeholder="10 digit mobile number">
-        </div>
-        <button class="action-btn" style="background: var(--primary); color: #fff;" onclick="saveProfile()">Profile Save Karein</button>
+        <h4 style="margin-bottom:12px;">Profile Details</h4>
+        <div class="fgrp"><label>Naam</label><input type="text" id="nInp"></div>
+        <div class="fgrp"><label>Phone</label><input type="tel" id="pInp"></div>
+        <button class="act-btn" style="background:var(--pri);color:#fff;" onclick="savePro()">Save Profile</button>
       </div>
-
-      <div class="card">
-        <h3 style="margin-bottom: 10px; font-size: 16px;">📢 Refer & Earn</h3>
-        <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px;">Apne doston ko invite karein aur har refer par 50 Coins payein!</p>
-        <div style="background: #0b1027; padding: 12px; border-radius: 8px; border: 1px dashed var(--accent); font-weight: bold; text-align: center; margin-bottom: 14px; color: var(--accent);">
-          Referral Code: <span id="refCodeText">VW7890</span>
-        </div>
-        <button class="action-btn" style="background: #25D366; color: #fff;" onclick="shareReferral()">WhatsApp par Share karein</button>
+      <div class="card" style="text-align:center;">
+        <h4>📢 Refer & Earn</h4>
+        <p style="font-size:12px;color:var(--dim);margin:6px 0 12px;">Share karein aur 50 coins payein</p>
+        <button class="act-btn" style="background:#25D366;color:#fff;" onclick="shareRef()">WhatsApp Share</button>
       </div>
     </div>
   </main>
 
-  <!-- Video Watch Modal -->
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <h3 id="modalTitle" style="margin-bottom: 10px;">Video Player</h3>
-      <div class="video-wrapper">
-        <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-      <div class="timer-badge" id="timerText">⏳ 30 seconds dekhein coins paane ke liye...</div>
-      <button class="close-btn" onclick="closePlayer()">Band Karein (Close)</button>
+  <div id="vMod" class="modal">
+    <div class="mcontent">
+      <h4 id="mTitle" style="margin-bottom:8px;"></h4>
+      <div class="vwrap"><iframe id="vFrame" allow="autoplay;encrypted-media" allowfullscreen></iframe></div>
+      <div id="tTxt" style="font-size:13px;color:var(--acc);margin-bottom:10px;font-weight:bold;"></div>
+      <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;" onclick="closeP()">Close</button>
     </div>
   </div>
 
   <script>
-    let userCoins = parseInt(localStorage.getItem('user_coins')) || 0;
-    let withdrawals = JSON.parse(localStorage.getItem('user_withdrawals')) || [];
-    let userProfile = JSON.parse(localStorage.getItem('user_profile')) || { name: 'Guest User', phone: '' };
+    const WA = "917879014448";
+    let coins = parseInt(localStorage.getItem('vw_c')) || 0;
+    let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
+    let prof = JSON.parse(localStorage.getItem('vw_p')) || { n: "Guest User", p: "N/A" };
+    let timer, sec = 30;
 
-    function updateBalances() {
-      document.getElementById('coinBalance').innerText = userCoins;
-      document.getElementById('walletCoins').innerText = userCoins;
-      document.getElementById('walletRupees').innerText = (userCoins / 10).toFixed(2);
+    function sync() {
+      document.getElementById('cb').innerText = coins;
+      document.getElementById('wc').innerText = coins;
+      document.getElementById('wr').innerText = (coins / 10).toFixed(2);
+      document.getElementById('uName').innerText = prof.n;
+      document.getElementById('uPhone').innerText = prof.p;
+      document.getElementById('nInp').value = prof.n !== "Guest User" ? prof.n : "";
+      document.getElementById('pInp').value = prof.p !== "N/A" ? prof.p : "";
+    }
+    sync(); renderH(); chkBonus();
+
+    function tab(t) {
+      document.getElementById('videoSec').style.display = t==='v'?'block':'none';
+      document.getElementById('walletSec').style.display = t==='w'?'block':'none';
+      document.getElementById('profileSec').style.display = t==='p'?'block':'none';
+      document.getElementById('bVid').className = 'tbtn' + (t==='v'?' active':'');
+      document.getElementById('bWal').className = 'tbtn' + (t==='w'?' active':'');
+      document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
-    function initProfile() {
-      if (userProfile.name && userProfile.name !== 'Guest User') {
-        document.getElementById('displayUserName').innerText = userProfile.name;
-        document.getElementById('nameInput').value = userProfile.name;
-      }
-      if (userProfile.phone) {
-        document.getElementById('displayUserPhone').innerText = "+91 " + userProfile.phone;
-        document.getElementById('phoneInput').value = userProfile.phone;
-      }
-    }
-
-    updateBalances();
-    initProfile();
-    renderHistory();
-    checkDailyBonusStatus();
-
-    function switchTab(tab) {
-      document.getElementById('videoSection').style.display = (tab === 'videos') ? 'block' : 'none';
-      document.getElementById('walletSection').style.display = (tab === 'wallet') ? 'block' : 'none';
-      document.getElementById('profileSection').style.display = (tab === 'profile') ? 'block' : 'none';
-
-      document.getElementById('tabVideosBtn').className = 'tab-btn' + (tab === 'videos' ? ' active' : '');
-      document.getElementById('tabWalletBtn').className = 'tab-btn' + (tab === 'wallet' ? ' active' : '');
-      document.getElementById('tabProfileBtn').className = 'tab-btn' + (tab === 'profile' ? ' active' : '');
-    }
-
-    let countdownInterval;
-    let timeLeft = 30;
-
-    function playVideo(videoId, title) {
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      document.getElementById('videoModal').style.display = 'flex';
-
-      timeLeft = 30;
-      document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
-
-      clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          document.getElementById('timerText').innerText = `⏳ ${timeLeft} seconds bache hain...`;
-        } else {
-          clearInterval(countdownInterval);
-          addReward();
+    function play(id, title) {
+      document.getElementById('mTitle').innerText = title;
+      document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      document.getElementById('vMod').style.display = 'flex';
+      sec = 30;
+      document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
+      clearInterval(timer);
+      timer = setInterval(() => {
+        sec--;
+        if(sec > 0) document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain...`;
+        else {
+          clearInterval(timer);
+          coins += 10;
+          localStorage.setItem('vw_c', coins);
+          sync();
+          document.getElementById('tTxt').innerText = "🎉 10 Coins Jud Gaye!";
         }
       }, 1000);
     }
+    function closeP() { clearInterval(timer); document.getElementById('vFrame').src = ""; document.getElementById('vMod').style.display = 'none'; }
 
-    function addReward() {
-      userCoins += 10;
-      localStorage.setItem('user_coins', userCoins);
-      updateBalances();
-      document.getElementById('timerText').innerText = "🎉 Mubarak! Aapko 10 Coins mil gaye!";
-    }
-
-    function closePlayer() {
-      clearInterval(countdownInterval);
-      document.getElementById('videoFrame').src = "";
-      document.getElementById('videoModal').style.display = 'none';
-    }
-
-    function checkDailyBonusStatus() {
-      const today = new Date().toDateString();
-      const lastClaim = localStorage.getItem('last_bonus_date');
-      const btn = document.getElementById('dailyBtn');
-      if (lastClaim === today) {
-        btn.innerText = "Claimed ✔";
-        btn.style.background = "#57606f";
-        btn.disabled = true;
+    function chkBonus() {
+      if(localStorage.getItem('vw_b') === new Date().toDateString()) {
+        const b = document.getElementById('dBtn'); b.innerText = "Claimed ✔"; b.disabled = true; b.style.opacity = 0.5;
       }
     }
-
-    function claimDailyBonus() {
-      const today = new Date().toDateString();
-      const lastClaim = localStorage.getItem('last_bonus_date');
-      if (lastClaim === today) {
-        alert('Aapne aaj ka bonus claim kar liya hai. Kal dobara aayen!');
-        return;
-      }
-      userCoins += 25;
-      localStorage.setItem('user_coins', userCoins);
-      localStorage.setItem('last_bonus_date', today);
-      updateBalances();
-      checkDailyBonusStatus();
-      alert('🎉 Badhai ho! Daily check-in bonus ke 25 Coins mil gaye!');
+    function claimDaily() {
+      coins += 25;
+      localStorage.setItem('vw_c', coins);
+      localStorage.setItem('vw_b', new Date().toDateString());
+      sync(); chkBonus();
+      alert("🎉 +25 Daily Coins Mil Gaye!");
     }
 
-    function handleWithdraw() {
-      const upi = document.getElementById('upiInput').value.trim();
-      const amount = parseInt(document.getElementById('withdrawAmount').value);
-
-      if (!upi || !upi.includes('@')) {
-        alert('Kripya ek valid UPI ID daalein (e.g. name@okhdfcbank)');
-        return;
-      }
-      if (isNaN(amount) || amount < 50) {
-        alert('Kam se kam 50 Coins ka withdrawal request laga sakte hain (₹5)!');
-        return;
-      }
-      if (amount > userCoins) {
-        alert('Aapke paas paryapt coins nahi hain!');
-        return;
-      }
-
-      const withdrawBtn = document.getElementById('withdrawBtn');
-      withdrawBtn.disabled = true;
-      withdrawBtn.innerText = "Processing...";
-
-      const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf45xs2P0LN26bHSLfx0VVVfX71gL_XhQ8yZ1SUH6D28k_Wqw/formResponse";
-      const formData = new FormData();
-      formData.append("entry.418968820", userProfile.name || "Guest");
-      formData.append("entry.888349764", userProfile.phone || "N/A");
-      formData.append("entry.614241502", upi);
-      formData.append("entry.1732203216", `${amount} Coins (₹${(amount / 10).toFixed(2)})`);
-
-      fetch(formURL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-      }).then(() => {
-        userCoins -= amount;
-        localStorage.setItem('user_coins', userCoins);
-        updateBalances();
-
-        const newRecord = {
-          upi: upi,
-          coins: amount,
-          rupees: (amount / 10).toFixed(2),
-          date: new Date().toLocaleDateString('en-IN'),
-          status: 'Pending'
-        };
-
-        withdrawals.unshift(newRecord);
-        localStorage.setItem('user_withdrawals', JSON.stringify(withdrawals));
-        renderHistory();
-
-        document.getElementById('upiInput').value = '';
-        document.getElementById('withdrawAmount').value = '';
-        withdrawBtn.disabled = false;
-        withdrawBtn.innerText = "Withdrawal Request Lagayein";
-
-        alert(`Badhai ho! ₹${newRecord.rupees} ki withdrawal request direct sheet me darj ho gayi hai.`);
-      }).catch(err => {
-        withdrawBtn.disabled = false;
-        withdrawBtn.innerText = "Withdrawal Request Lagayein";
-        alert("Network error. Kripya dobara try karein.");
-      });
+    function add50() {
+      coins += 50; localStorage.setItem('vw_c', coins); sync(); alert("+50 Test Coins Jud Gaye!");
     }
 
-    function renderHistory() {
-      const listEl = document.getElementById('historyList');
-      if (withdrawals.length === 0) {
-        listEl.innerHTML = `<div style="color: var(--text-dim); font-size: 13px; text-align: center; padding: 10px;">Koi withdrawal request nahi hai abhi.</div>`;
-        return;
-      }
-      listEl.innerHTML = withdrawals.map(item => `
-        <div class="history-item">
-          <div>
-            <strong>₹${item.rupees}</strong> (${item.coins} Coins)<br>
-            <span style="font-size: 11px; color: var(--text-dim);">${item.upi} • ${item.date}</span>
-          </div>
-          <span class="status-badge">${item.status}</span>
+    function doWithdraw() {
+      const upi = document.getElementById('uInput').value.trim();
+      const amt = parseInt(document.getElementById('aInput').value);
+      if(!upi.includes('@')) { alert("Sahi UPI ID dalein!"); return; }
+      if(isNaN(amt) || amt < 50) { alert("Min withdrawal 50 Coins (₹5) hai!"); return; }
+      if(amt > coins) { alert("Paryapt coins nahi hain!"); return; }
+
+      const rs = (amt / 10).toFixed(2);
+      const dt = new Date().toLocaleDateString('en-IN');
+      coins -= amt;
+      localStorage.setItem('vw_c', coins);
+      sync();
+
+      hist.unshift({ u: upi, c: amt, r: rs, d: dt, s: "Pending" });
+      localStorage.setItem('vw_h', JSON.stringify(hist));
+      renderH();
+
+      document.getElementById('uInput').value = "";
+      document.getElementById('aInput').value = "";
+
+      const msg = `*📢 Withdrawal Request - VideoWala*\n\n` +
+                  `👤 *Name:* ${prof.n}\n` +
+                  `📱 *Phone:* ${prof.p}\n` +
+                  `💳 *UPI:* ${upi}\n` +
+                  `🪙 *Coins:* ${amt}\n` +
+                  `💰 *Rupees:* ₹${rs}\n` +
+                  `📅 *Date:* ${dt}`;
+
+      alert(`₹${rs} request lag gayi! WhatsApp open ho raha hai send karne ke liye.`);
+      window.open(`https://api.whatsapp.com/send?phone=${WA}&text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function renderH() {
+      const el = document.getElementById('hList');
+      if(!hist.length) { el.innerHTML = `<p style="font-size:12px;color:var(--dim);text-align:center;">Koi history nahi hai</p>`; return; }
+      el.innerHTML = hist.map(x => `
+        <div class="hitem">
+          <div><strong>₹${x.r}</strong> (${x.c} Coins)<br><span style="color:var(--dim);">${x.u} • ${x.d}</span></div>
+          <span class="sbadge">${x.s}</span>
         </div>
       `).join('');
     }
 
-    function saveProfile() {
-      const name = document.getElementById('nameInput').value.trim();
-      const phone = document.getElementById('phoneInput').value.trim();
-      if (!name) { alert('Kripya naam enter karein'); return; }
-      userProfile = { name, phone };
-      localStorage.setItem('user_profile', JSON.stringify(userProfile));
-      initProfile();
-      alert('Profile details successfully save ho gayi hain!');
+    function savePro() {
+      const n = document.getElementById('nInp').value.trim();
+      const p = document.getElementById('pInp').value.trim();
+      if(!n) { alert("Naam likhein!"); return; }
+      prof = { n: n, p: p || "N/A" };
+      localStorage.setItem('vw_p', JSON.stringify(prof));
+      sync();
+      alert("Profile Saved!");
     }
 
-    function shareReferral() {
-      const text = encodeURIComponent(`VideoWala App par videos dekho aur rozana paise kamao! Mera referral code use karein: VW7890. Link: ${window.location.href}`);
-      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    function shareRef() {
+      const t = encodeURIComponent(`VideoWala par video dekh kar paise kamao! Code: VW7890. Link: ${window.location.href}`);
+      window.open(`https://api.whatsapp.com/send?text=${t}`, '_blank');
     }
   </script>
 </body>
   </html>
-            
+  
