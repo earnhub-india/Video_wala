@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="monetag" content="bde4580c5ebe2c2476a7d949199cb8fc">
   <title>VideoWala - Watch & Earn</title>
   <style>
     :root { --bg: #0b1027; --card: #171e3d; --pri: #6c5ce7; --acc: #ffb703; --grn: #00b894; --dim: #a0aec0; }
@@ -56,10 +55,10 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">😂</div><h4>Comedy</h4><button class="wbtn" onclick="play('M7lc1UVf-VE','Comedy')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🎵</div><h4>Music</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Music')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">📱</div><h4>Tech</h4><button class="wbtn" onclick="play('dQw4w9WgXcQ','Tech')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">⭐</div><h4>Facts</h4><button class="wbtn" onclick="play('L_LUpnjgPso','Facts')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🎨</div><h4>Cartoon Kahaniya</h4><button class="wbtn" onclick="play('u1z41Ltwy2o','Cartoon Kahaniya')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🌟</div><h4>Moral Stories</h4><button class="wbtn" onclick="play('YHzM4PvU1nk','Moral Stories')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🚀</div><h4>Space Facts</h4><button class="wbtn" onclick="play('L_LUpnjgPso','Space Facts')">Dekhein</button></div>
+        <div class="vcard"><div class="vthumb">🦁</div><h4>Animal World</h4><button class="wbtn" onclick="play('35npR-i2Ue4','Animal World')">Dekhein</button></div>
       </div>
     </div>
 
@@ -111,7 +110,6 @@
   <script>
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
-    const AD_DIRECT_LINK = "https://uplcm.com/4/12101323";
 
     let coins = parseInt(localStorage.getItem('vw_c')) || 0;
     let hist = JSON.parse(localStorage.getItem('vw_h')) || [];
@@ -143,8 +141,7 @@
     }
 
     function play(id, title) {
-      window.open(AD_DIRECT_LINK, '_blank');
-
+      // Ad link poori tarah hata diya gaya hai - safe video playback
       document.getElementById('mTitle').innerText = title;
       document.getElementById('vFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       document.getElementById('vMod').style.display = 'flex';
@@ -272,7 +269,7 @@
     }
 
     function shareRef() {
-      const t = encodeURIComponent(`VideoWala par video dekh kar paise kamao! Code: VW7890. Link: ${window.location.href}`);
+      const t = encodeURIComponent(`VideoWala par video dekh kar maze karein! Link: ${window.location.href}`);
       window.open(`https://api.whatsapp.com/send?text=${t}`, '_blank');
     }
   </script>
