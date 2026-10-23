@@ -33,8 +33,8 @@
     .sbadge { background: #fdcb6e; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 99; justify-content: center; align-items: center; padding: 14px; }
     .mcontent { background: var(--card); width: 100%; max-width: 450px; border-radius: 14px; padding: 14px; text-align: center; }
-    .vwrap { position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
-    .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .vwrap { width: 100%; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #000; }
+    .vwrap video { width: 100%; height: auto; max-height: 250px; border-radius: 8px; display: block; }
     .info-tag { font-size: 11px; color: var(--dim); margin-top: 5px; }
   </style>
 </head>
@@ -56,10 +56,30 @@
         <button class="bbtn" id="dBtn" onclick="claimDaily()">Claim 25 🪙</button>
       </div>
       <div class="grid">
-        <div class="vcard"><div class="vthumb">🐻</div><h4>Masha & Bear</h4><button class="wbtn" onclick="play('KYniUCGPGLs','Masha & Bear')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🐰</div><h4>Kids Rhymes</h4><button class="wbtn" onclick="play('e_04ZrNroTo','Kids Rhymes')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🌍</div><h4>Motu Patlu Fun</h4><button class="wbtn" onclick="play('kJQP7kiw5Fk','Motu Patlu Fun')">Dekhein</button></div>
-        <div class="vcard"><div class="vthumb">🎨</div><h4>Cartoon Magic</h4><button class="wbtn" onclick="play('EngW7tLk6R8','Cartoon Magic')">Dekhein</button></div>
+        <div class="vcard">
+          <div class="vthumb">🐰</div>
+          <h4>Cartoons</h4>
+          <p style="font-size:11px;color:var(--dim);">Bunny Adventure</p>
+          <button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4','Bunny Cartoon')">Dekhein</button>
+        </div>
+        <div class="vcard">
+          <div class="vthumb">🚗</div>
+          <h4>Action</h4>
+          <p style="font-size:11px;color:var(--dim);">Turbo Racing</p>
+          <button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4','Turbo Racing')">Dekhein</button>
+        </div>
+        <div class="vcard">
+          <div class="vthumb">🌟</div>
+          <h4>Fairy Tale</h4>
+          <p style="font-size:11px;color:var(--dim);">Dream Fantasy</p>
+          <button class="wbtn" onclick="play('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4','Dream Fantasy')">Dekhein</button>
+        </div>
+        <div class="vcard">
+          <div class="vthumb">🐬</div>
+          <h4>Nature & Wild</h4>
+          <p style="font-size:11px;color:var(--dim);">Ocean Wildlife</p>
+          <button class="wbtn" onclick="play('https://vjs.zencdn.net/v/oceans.mp4','Ocean Wildlife')">Dekhein</button>
+        </div>
       </div>
     </div>
 
@@ -103,7 +123,7 @@
     <div class="mcontent">
       <h4 id="mTitle" style="margin-bottom:8px;"></h4>
       <div class="vwrap">
-        <iframe id="vFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <video id="vPlayer" controls playsinline></video>
       </div>
       <div id="tTxt" style="font-size:14px;color:var(--acc);margin:10px 0;font-weight:bold;"></div>
       <button style="background:#ff4757;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;" onclick="closeP()">Close</button>
@@ -114,7 +134,6 @@
     const TG_TOKEN = "8421412686:AAG1f1UWAksJMNh8GFdvtqDFA1i5O49YBgI";
     const TG_CHAT_ID = "8373579881";
 
-    // Hardware based Unique Device Hash (Anti-Data Clear)
     function getDeviceHash() {
       const nav = window.navigator;
       const scr = window.screen;
@@ -129,7 +148,6 @@
 
     const DEV_KEY = getDeviceHash();
 
-    // Cookie backup so clear data won't easily reset daily limits
     function setCookie(k, v) {
       const d = new Date();
       d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
@@ -170,9 +188,12 @@
       document.getElementById('bPro').className = 'tbtn' + (t==='p'?' active':'');
     }
 
-    function play(ytId, title) {
+    function play(videoUrl, title) {
       document.getElementById('mTitle').innerText = title;
-      document.getElementById('vFrame').src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&playsinline=1&controls=1`;
+      const player = document.getElementById('vPlayer');
+      player.src = videoUrl;
+      player.currentTime = 0;
+      player.play().catch(e => console.log('Autoplay tap'));
       document.getElementById('vMod').style.display = 'flex';
       
       sec = 30;
@@ -181,7 +202,7 @@
       
       clearInterval(timer);
       timer = setInterval(() => {
-        if (!isTabActive) return; // Cheating prevention: pause when user leaves tab
+        if (!isTabActive || player.paused) return; // Tab change ya pause karne par timer rukega
         sec--;
         if (sec > 0) {
           document.getElementById('tTxt').innerText = `⏳ ${sec}s bache hain reward ke liye...`;
@@ -200,7 +221,10 @@
 
     function closeP() {
       clearInterval(timer);
-      document.getElementById('vFrame').src = "";
+      const player = document.getElementById('vPlayer');
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
       document.getElementById('vMod').style.display = 'none';
     }
 
@@ -222,7 +246,7 @@
       const cookieCheck = getCookie('vw_b_' + DEV_KEY);
 
       if (localCheck === today || cookieCheck === today) {
-        alert("⚠️ Is phone/browser se aaj ka bonus pehle hi claim kiya ja chuka hai!");
+        alert("⚠️ Is phone se aaj ka daily bonus liya ja chuka hai!");
         return;
       }
 
@@ -241,7 +265,7 @@
       const lastWd = localStorage.getItem('vw_last_wd_' + DEV_KEY) || getCookie('vw_last_wd_' + DEV_KEY);
       
       if (lastWd === today) {
-        alert("⚠️ Ek device se din me sirf 1 hi withdrawal lag sakta hai. Agla kal lagayein!");
+        alert("⚠️ Ek device se din me sirf 1 baar withdrawal lag sakta hai!");
         return;
       }
 
@@ -321,5 +345,4 @@
     }
   </script>
 </body>
-    </html>
-  
+</html>
